@@ -1,6 +1,7 @@
 :root {
     color-scheme: dark;
     width: 100%;
+    font-size: small;
 }
 * {
     color: white;
@@ -13,24 +14,6 @@ html, body {
     width: 100%;
     background-color: black;
 }
-.menuItem, .footerItem {
-    margin: 0;
-    height: 100%;
-    line-height: 100%;
-    padding: 4px;
-}
-#stats {
-    text-align: center;
-    width: auto;
-    padding-right: 44px;
-}
-#stats img {
-    position: absolute;
-    width: auto;
-    height: auto;
-    bottom: 20px;
-    filter: opacity(20%);
-}
 .navigation {
     height: 35px;
     line-height: 35px;
@@ -39,15 +22,14 @@ html, body {
     padding: 0;
     text-align: center;
     display: inline-block;
-    font-size: small;
-    border-bottom: 1px solid rgb(40,40,40);
+
 }
 #footer {
     text-align: center;
+    font-size: small;
 }
 .links {
     color: grey;
-    font-size: small;
 }
 #header {
     text-align: center;
@@ -58,27 +40,13 @@ html, body {
     vertical-align: middle;
     width: 100%;
 }
-#headline {
-    text-align: center;
-    vertical-align: middle;
-    margin: 0;
-    line-height: auto;
-}
-#main {
-    height: auto;
-    margin: auto;
-    margin-top: 20px;
-    width: 900px;
-    border: 1px solid rgb(40,40,40);
-    border-bottom: 0;
-    background-color: rgb(15,15,15);
-}
-h2, h4 {
+h2 {
     text-align: center;
     margin: 0;
     padding: 0;
     width: auto;
     display: inline-block;
+    font-size: x-large !important;
 }
 a {
     text-decoration: none;
@@ -94,7 +62,6 @@ button {
     padding: 2px;
     padding-left: 4px;
     padding-right: 4px;
-    font-size: small;
 }
 img {
     height: 16px;
@@ -125,7 +92,7 @@ select option:checked {
 input {
     border: 1px solid rgb(40,40,40);
     outline: none;
-    width: 45%;
+    width: 200px;
     padding: 6px;
     margin: 5px;
     display: inline-block;
@@ -134,7 +101,6 @@ input {
 }
 select, input {
     background-color: black;
-    font-size: small;
 }
 input[type="checkbox"] {
     width: 16px;
@@ -155,7 +121,6 @@ input:focus {
 table {
     width: 100%;
     text-align: left;
-    font-size: small;
     background-color: black;
     border: 1px solid rgb(40,40,40);
 }
@@ -174,10 +139,9 @@ td {
 }
 label {
     display: inline-block;
-    text-align: right;
+    text-align: left;
     vertical-align: middle;
     margin-bottom: 0;
-    font-size: small;
 }
 .disable-select {
     user-select: none; /* supported by Chrome and Opera */
@@ -186,121 +150,15 @@ label {
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
 }
-.separator {
-    border-left: 3px solid grey;
-    height: 20px;
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 5px;
-    margin-right: 5px;
-}
 .labels {
-    width: 30%;
-    text-align: right;
-}
-.component {
-    width: auto;
-    display: inline-block;
-    margin: 5px;
-    padding: 10px;
-    height: auto;
-    vertical-align: middle;
     text-align: left;
-    border: 1px solid rgb(40,40,40);
-    font-size: small;
 }
 .layer {
     padding: 20px;
     border-bottom: 1px solid rgb(40,40,40);
     border-top: 0;
-}
-#defaults {
-    border: 1px solid rgb(40,40,40);
-    width: auto;
-    display: inline-block;
-    padding: 5px;
-    margin: 5px;
-}
-.controls {
-    text-align: right;
-    width: auto;
-    height: auto;
-    margin-top: 10px;
-}
-.control {
-    width: auto;
-    display: inline-block;
-    margin: 3px;
-}
-span {
-    padding: 3px;
-}
-#controlsCLI {
-    padding: 10px;
-}
-#controlsJSON {
-    float: right;
-}
-#controlsCompact {
-    float: left;
-}
-#mirrorOnlyLevelUpdates, #trustDownloadedFilesInRepositoryTemp {
-    margin: 5px;
-}
-#outputBox {
-    background-color: black;
-    white-space: pre-wrap;
-    resize: none;
-    outline: none;
-    padding: 20px;
-    margin-bottom: 10px;
-    border: 1px solid rgb(40,40,40);
-    font-size: small;
-}
-#outputBox2 {
-    color: rgb(144, 96, 199);
-    text-align: left;
-    white-space: pre-wrap;
-    width: auto;
-    background-color: black;
-    margin: 0;
-    padding: 20px;
-    height: auto;
-    word-wrap: break-word;
-    border: 1px solid rgb(40,40,40);
-    font-size: small;
-}
-#optional {
-    margin: 0;
-    padding: 0;
-}
-#repository, #global, #layerJSON, .optional {
-    display: none;
-}
-#filters {
-    margin: 0;
     text-align: center;
 }
-#enablePrettyBox {
-    display: inline-block;
-    width: auto;
-    margin: 0;
-    margin-left: 5px;
-}
-#hidden, #toastLabel {
+#toastLabel {
     visibility: hidden;
 }
-#bigger {
-    line-height: 36px;
-    vertical-align: middle;
-}
-.removeIcon {
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
-colorParameter {color: rgb(67, 166, 224);}
-colorArgument {color: rgb(26, 133, 127);}
-colorPassword {color: rgb(121, 120, 184);}
-colorStart {color: rgb(129, 87, 177);}
-colorWarn {color: rgb(70, 70, 70);}
