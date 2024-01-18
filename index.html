@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <title>RepoDownloader</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" type="image/x-icon" href="res/favicon.png">
+    <link rel="stylesheet" href="css/styles.css" type="text/css"/>
+</head>
+
+<body>
+    <form id="main" class="disable-select" spellcheck="false" autocomplete="off">
+        <div id="header" class="disable-select">
+            <h2 id="headline">RepoDownloader</h2>
+        </div>
+        <div id="filters">
+            <div class="layer" id="mirror">
+                <label class="labels"
+                title="Product to download">Product</label>
+                <select id="product">
+                    <option value="foo">foo</option>
+                </select><br>
+                <label class="labels"
+                title="Filter results by text">Text filter</label>
+                <input type="text" id="textfilter" placeholder=""><br>
+            </div>
+        </div>
+        <div class="layer" id="results">
+            results
+        </div>
+        </div>
+        <menu class="navigation" id="footer">
+            <a class="links" id="" href="https://esetuk.github.io/repo-downloader/res/products.csv"
+                target="_blank">Raw products list</a>
+        </menu>
+    </form>
+    <div id="stats">
+</div>
+    <div id="toastLabel"></div>
+    <div id="hidden"></div>
+</body>
+</html>
