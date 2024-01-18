@@ -1,4 +1,5 @@
 // Declare globals
+var items = [];
 var products = [];
 var list;
 
@@ -11,7 +12,7 @@ function main() {
 }
 
 function updateResult() {
-    if (products.length > 0) {
+    if (items.length > 0) {
         createTable();
     } else {
         document.getElementById("results").innerHTML = "No results :("
@@ -31,9 +32,21 @@ function parseList(list) {
             temp[i][j] = temp[i][j].trim();
         }
         //Add to master array if line not empty / includes keywords
-        if ((temp[i].length != 0) && (temp[i][7].toLowerCase().includes("msi") || temp[i][7].toLowerCase().includes("exe") || temp[i][7].toLowerCase().includes("dmg"))) products.push(temp[i]);
+        if ((temp[i].length != 0) && (temp[i][7].toLowerCase().includes("msi") || temp[i][7].toLowerCase().includes("exe") || temp[i][7].toLowerCase().includes("dmg"))) items.push(temp[i]);
+        //----HERE----
+        if (!products.includes(temp[i][1]) && temp[i][1] != undefined) products.push(temp[i][1]);
+    }
+    var select = document.getElementById("product");
+    console.log(products.length);
+    for (let i = 0; i < products.length; i++){
+        var opt = products[i];
+        var el = document.createElement("option");
+        el.textContent = opt;
+        el.value = opt;
+        select.appendChild(el);
     }
     // Remove the header (first item of array)
+    items.shift();
     products.shift();
 }
 
@@ -47,16 +60,16 @@ function createTable() {
     test();
     function test() {
         var row = table.insertRow(index);
-        row.insertCell(0).innerHTML = products[index][1]; // Product
-        row.insertCell(1).innerHTML = products[index][3]; // Language
-        row.insertCell(2).innerHTML = products[index][2]; // Version
-        row.insertCell(3).innerHTML = products[index][4]; // Architecture
-        row.insertCell(4).innerHTML = products[index][5]; // Platform
+        row.insertCell(0).innerHTML = items[index][1]; // Product
+        row.insertCell(1).innerHTML = items[index][3]; // Language
+        row.insertCell(2).innerHTML = items[index][2]; // Version
+        row.insertCell(3).innerHTML = items[index][4]; // Architecture
+        row.insertCell(4).innerHTML = items[index][5]; // Platform
         row.insertCell(5).innerHTML = `<button type="button" title="Download"><img
         src="res/downloadButton.png"></img></button>`
         index++;
-        let maxResults = 100
-        if (index < products.length && index < maxResults) {
+        let maxResults = 100;
+        if (index < items.length && index < maxResults) {
             document.getElementById("results").innerHTML = `Loading [${index} results]`;
             // Allow UI to function by calling timeout every ~10ms
             setTimeout(test, 0);
