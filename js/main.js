@@ -1,9 +1,14 @@
-// Declare globals
 var items = [];
 var products = [];
 var list;
 
 main();
+
+const selects = document.querySelectorAll('.selects');
+
+ selects.forEach(el => el.addEventListener('change', event => { 
+      createTable();
+     }));
 
 function main() {
     list = readTextFile("https://esetuk.github.io/repo-downloader/res/products.csv");
@@ -20,24 +25,19 @@ function updateResult() {
 }
 
 function parseList(list) {
-    // Split list by line
     temp = list.split(/[\r\n]+/);
-    // Iterate through each line
     for (let i = 0; i < temp.length; i++) {
-        // Split the line by comma and remove the last comma, move it into a var
         temp[i] = temp[i].split(",").slice(0, -1)
-        // Iterate over the items
         for (let j = 0; j < temp[i].length; j++) {
-            // Remove any whitespace from both ends of string
             temp[i][j] = temp[i][j].trim();
         }
-        //Add to master array if line not empty / includes keywords
-        if ((temp[i].length != 0) && (temp[i][7].toLowerCase().includes("msi") || temp[i][7].toLowerCase().includes("exe") || temp[i][7].toLowerCase().includes("dmg"))) items.push(temp[i]);
+        if ((temp[i].length != 0) && (temp[i][7].toLowerCase().includes("xxx") || temp[i][7].toLowerCase().includes("xxx") || temp[i][7].toLowerCase().includes("msi"))) items.push(temp[i]);
         //----HERE----
         if (!products.includes(temp[i][1]) && temp[i][1] != undefined) products.push(temp[i][1]);
     }
     var select = document.getElementById("product");
-    console.log(products.length);
+    products.shift();
+    items.shift();
     for (let i = 0; i < products.length; i++){
         var opt = products[i];
         var el = document.createElement("option");
@@ -45,43 +45,48 @@ function parseList(list) {
         el.value = opt;
         select.appendChild(el);
     }
-    // Remove the header (first item of array)
-    items.shift();
-    products.shift();
+    console.log(items);
 }
 
 
 function createTable() {
-    var headers = ["Product", "Language", "Version", "Architecture", "Platform", "Download"];
-    var table = document.createElement("TABLE");  //makes a table element for the page
-    var downloadIcon = document.createElement('img');
+    document.getElementById("results").innerHTML = "";
+    let headers = ["Product", "Language", "Version", "Architecture", "Platform", ""];
+    let table = document.createElement("table");
+    table.classList.add('center');
+    let downloadIcon = document.createElement('img');
     downloadIcon.src = "res/downloadButton.png";
-    var index = 0;        
-    test();
-    function test() {
-        var row = table.insertRow(index);
-        row.insertCell(0).innerHTML = items[index][1]; // Product
-        row.insertCell(1).innerHTML = items[index][3]; // Language
-        row.insertCell(2).innerHTML = items[index][2]; // Version
-        row.insertCell(3).innerHTML = items[index][4]; // Architecture
-        row.insertCell(4).innerHTML = items[index][5]; // Platform
-        row.insertCell(5).innerHTML = `<button type="button" title="Download"><img
-        src="res/downloadButton.png"></img></button>`
-        index++;
+    let index = 0;        
+    let e = document.getElementById("product");
+    let selected = e.options[e.selectedIndex].value;
+    let currentRow = 0;
+    console.log("Selected: " + selected);
+    createRow();
+    function createRow() {
         let maxResults = 100;
+        if (items[index][1] == selected) {
+            let row = table.insertRow(currentRow);
+            row.insertCell(0).innerHTML = items[index][1]; // Product
+            row.insertCell(1).innerHTML = items[index][3]; // Language
+            row.insertCell(2).innerHTML = items[index][2]; // Version
+            row.insertCell(3).innerHTML = items[index][4]; // Architecture
+            row.insertCell(4).innerHTML = items[index][5]; // Platform
+            row.insertCell(5).innerHTML = `<a href="">Download</a> | <a href="">Copy link</a>`;
+            currentRow++;
+        }
         if (index < items.length && index < maxResults) {
             document.getElementById("results").innerHTML = `Loading [${index} results]`;
-            // Allow UI to function by calling timeout every ~10ms
-            setTimeout(test, 0);
+            setTimeout(createRow, 0);
         } else {
             var header = table.createTHead();
             var headerRow = header.insertRow(0);
+            headerRow.classList.add('th');
             for(var i = 0; i < headers.length; i++) {
                 headerRow.insertCell(i).innerHTML = headers[i];
             }
-            document.getElementById("results").innerHTML = "";
             document.getElementById("results").append(table);
-        }
+            }
+        index++;
     }
 }
 
