@@ -11,7 +11,7 @@ const selects = document.querySelectorAll('.selects');
      }));
 
 function main() {
-    list = readTextFile("https://esetuk.github.io/repo-downloader/res/products.csv");
+    list = readTextFile("https://esetuk.github.io/repo-downloader/res/products2.csv");
     parseList(list);
     updateResult();
 }
