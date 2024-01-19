@@ -126,7 +126,7 @@ table {
 }
 table, th, td {
     border-collapse: collapse;
-    padding: 20px;
+    padding: 10px;
     cursor: default;
 }
 th {
