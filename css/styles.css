@@ -27,10 +27,10 @@ html, body {
 #footer {
     text-align: center;
     font-size: small;
-    padding: 20px;
+    color: grey;
 }
 .links {
-    color: grey;
+    color: dodgerblue;
 }
 #header {
     text-align: center;
@@ -121,13 +121,12 @@ input:focus {
 }
 table {
     text-align: center;
-    background-color: black;
+    background-color: rgb(10,10,10);
     border: 1px solid rgb(40,40,40);
     width: 100%;
 }
 table, th, td {
     border-collapse: collapse;
-    padding: 10px;
     cursor: default;
 }
 th {
@@ -140,6 +139,8 @@ th {
 td {
     max-width: 200px;
     word-wrap: break-word;
+    padding: 5px;
+    border-bottom: 1px solid rgb(40,40,40);
 }
 label {
     display: inline-block;
@@ -162,6 +163,7 @@ label {
     border-bottom: 1px solid rgb(40,40,40);
     border-top: 0;
     text-align: center;
+    background-color: rgb(10,10,10);
 }
 #toastLabel {
     visibility: hidden;

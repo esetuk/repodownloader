@@ -27,7 +27,7 @@ function parseList(list) {
         for (let j = 0; j < temp[i].length; j++) {
             temp[i][j] = temp[i][j].trim();
         }
-        let include = ["msi", "exe", "dmg", "sh", "bin", "pkg"];
+        let include = ["msi", "exe", "dmg", "sh", "bin", "pkg", "zip"];
         if (temp[i].length != 0) {
         include.every(e => {
             if (temp[i][7].toLowerCase().includes(e)) {
@@ -53,16 +53,16 @@ function parseList(list) {
 
 function createTable() {
     document.getElementById("results").innerHTML = "";
-    let headers = ["Product", "Language", "Version", "Platform", "Architecture", "Path"];
+    let headers = ["Product", "Language", "Version", "Platform", "Architecture", "Path", "", ""];
     table = document.createElement("table");
-    table.classList.add('center');
+    table.classList.add("sortable");
     let textFilterText = document.getElementById("textfilter").value.toLowerCase();
     let limitResults = document.getElementById("limitresults").checked;
     let e = document.getElementById("product");
     let selected = e.options[e.selectedIndex].value;
     let currentRow = 0;
     let match = false;
-    let maxResults = 10;
+    const maxResults = 20;
     for (let index = 0; index < items.length; index++) {
         if (items[index][1] == selected) {
                 for (let j = 0; j < items[index].length; j++) {
@@ -76,9 +76,9 @@ function createTable() {
                         row.insertCell(3).innerHTML = items[index][4]; // Architecture
                         row.insertCell(4).innerHTML = items[index][5]; // Platform
                         row.insertCell(5).innerHTML = items[index][7]; // Path
-                        row.insertCell(6).innerHTML = `<a href="javascript:void(0)">Download</a>`;
+                        row.insertCell(6).innerHTML = `<a href="javascript:void(0)" class="links">Download</a>`;
                         table.rows[currentRow].cells[6].id = "download";
-                        row.insertCell(7).innerHTML = `<a href="javascript:void(0)">Copy URL</a>`;
+                        row.insertCell(7).innerHTML = `<a href="javascript:void(0)" class="links">Copy URL</a>`;
                         table.rows[currentRow].cells[7].id = "copy";
                         currentRow++;
                     };
@@ -89,7 +89,9 @@ function createTable() {
         }
         let resultsString;
         if (currentRow > 0) {
-            resultsString = `${currentRow} results<br><br>`;
+            resultsString = `${currentRow} results`;
+            if (limitResults) resultsString += " [LIMITED]";
+            resultsString += "<br><br>";
             document.getElementById("results").innerHTML = resultsString;
             document.getElementById("results").append(table);
                 var header = table.createTHead();
@@ -146,11 +148,11 @@ function action(e) {
 function downloadURL(url) {
     url = repoRoot + url;
     window.location.href = url;
-    toast("Downloading package");
+    toast(`Downloading package from ${url}`);
 }
 
 function copyURL(url) {
     url = repoRoot + url;
     navigator.clipboard.writeText(url);
-    toast("Copied URL to clipboard");
+    toast(`Copied URL [${url}] to clipboard`);
 }
