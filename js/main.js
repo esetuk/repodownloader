@@ -91,7 +91,7 @@ function createTable() {
         let resultsString;
         if (currentRow > 0) {
             resultsString = `${currentRow} results`;
-            if (limitResults) resultsString += " [LIMITED]";
+            if (limitResults && currentRow >= maxResults) resultsString += " [LIMITED]";
             resultsString += "<br><br>";
             document.getElementById("results").innerHTML = resultsString;
             document.getElementById("results").append(table);
