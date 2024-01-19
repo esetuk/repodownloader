@@ -144,6 +144,7 @@ label {
     text-align: left;
     vertical-align: middle;
     margin-bottom: 0;
+    margin-left: 20px;
 }
 .disable-select {
     user-select: none; /* supported by Chrome and Opera */
