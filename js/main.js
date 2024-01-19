@@ -73,8 +73,11 @@ function createTable() {
         if (items[index][1] == selected) {
                 for (let j = 0; j < items[index].length; j++) {
                     match = false;
-                    if (items[index][j].toLowerCase().includes(textFilterText)|| textFilterText == "") {
-                        if ((englishResults && (items[index][j].toLowerCase() == "en_us" || items[index][j].toLowerCase() == "multilang")) || !englishResults) {
+                    //if (items[index][j].toLowerCase().includes(textFilterText)|| textFilterText == "") {
+                        // breaks filter
+                        if ((items[index][j].toLowerCase().includes(textFilterText)|| textFilterText == "") && 
+                        (englishResults && (items[index][j].toLowerCase() == "en_us" || items[index][j].toLowerCase() == "multilang") ||
+                        !englishResults)) {
                             match = true;
                             let row = table.insertRow(currentRow);
                             row.insertCell(0).innerHTML = items[index][1]; // Product
@@ -89,7 +92,7 @@ function createTable() {
                             table.rows[currentRow].cells[7].id = "copy";
                             currentRow++;
                         }
-                    };
+                    //}
                 if (match) break;
                 }
             }
