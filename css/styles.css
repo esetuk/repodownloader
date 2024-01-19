@@ -22,12 +22,8 @@ html, body {
     padding: 0;
     text-align: center;
     display: inline-block;
+    color: darkgray;
 
-}
-#footer {
-    text-align: center;
-    font-size: small;
-    color: grey;
 }
 .links {
     color: dodgerblue;
@@ -51,6 +47,7 @@ h2 {
 }
 a {
     text-decoration: none;
+    color: darkgray;
 }
 a:hover {
     color: white;
@@ -171,4 +168,9 @@ label {
 .center {
     margin-left: auto;
     margin-right: auto;
+}
+#footer {
+    border: none;
+    color: green !important;
+    background-color: black;
 }

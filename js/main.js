@@ -41,6 +41,7 @@ function parseList(list) {
     }
     var select = document.getElementById("product");
     products.shift();
+    products.sort();
     items.shift();
     for (let i = 0; i < products.length; i++){
         var opt = products[i];
