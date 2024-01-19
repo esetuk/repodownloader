@@ -27,6 +27,7 @@ html, body {
 #footer {
     text-align: center;
     font-size: small;
+    padding: 20px;
 }
 .links {
     color: grey;
@@ -119,14 +120,13 @@ input:focus {
     outline: none;
 }
 table {
-    width: 75%;
     text-align: center;
     background-color: black;
     border: 1px solid rgb(40,40,40);
 }
 table, th, td {
     border-collapse: collapse;
-    padding: 5px;
+    padding: 20px;
     cursor: default;
 }
 th {
