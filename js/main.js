@@ -10,7 +10,7 @@ document.querySelectorAll('.selects').forEach(el => el.addEventListener('change'
       createTable();
     }));
 
-document.getElementById('textfilter').addEventListener('change', event => {
+document.getElementById('textfilter').addEventListener('keyup', event => {
     createTable();
 });
 
@@ -53,28 +53,39 @@ function parseList(list) {
 
 function createTable() {
     document.getElementById("results").innerHTML = "";
-    let headers = ["Product", "Language", "Version", "Architecture", "Platform", "Path"];
+    let headers = ["Product", "Language", "Version", "Platform", "Architecture", "Path"];
     table = document.createElement("table");
     table.classList.add('center');
-    let textFilterText = document.getElementById("textfilter").value;
+    let textFilterText = document.getElementById("textfilter").value.toLowerCase();
+    let limitResults = document.getElementById("limitresults").checked;
     let e = document.getElementById("product");
     let selected = e.options[e.selectedIndex].value;
     let currentRow = 0;
+    let match = false;
+    let maxResults = 10;
     for (let index = 0; index < items.length; index++) {
         if (items[index][1] == selected) {
-                let row = table.insertRow(currentRow);
-                row.insertCell(0).innerHTML = items[index][1]; // Product
-                row.insertCell(1).innerHTML = items[index][3]; // Language
-                row.insertCell(2).innerHTML = items[index][2]; // Version
-                row.insertCell(3).innerHTML = items[index][4]; // Architecture
-                row.insertCell(4).innerHTML = items[index][5]; // Platform
-                row.insertCell(5).innerHTML = items[index][7]; // Path
-                row.insertCell(6).innerHTML = `<a href="javascript:void(0)">Download</a>`;
-                table.rows[currentRow].cells[6].id = "download";
-                row.insertCell(7).innerHTML = `<a href="javascript:void(0)">Copy URL</a>`;
-                table.rows[currentRow].cells[7].id = "copy";
-                currentRow++;
+                for (let j = 0; j < items[index].length; j++) {
+                    match = false;
+                    if (items[index][j].toLowerCase().includes(textFilterText)|| textFilterText == "") {
+                        match = true;
+                        let row = table.insertRow(currentRow);
+                        row.insertCell(0).innerHTML = items[index][1]; // Product
+                        row.insertCell(1).innerHTML = items[index][3]; // Language
+                        row.insertCell(2).innerHTML = items[index][2]; // Version
+                        row.insertCell(3).innerHTML = items[index][4]; // Architecture
+                        row.insertCell(4).innerHTML = items[index][5]; // Platform
+                        row.insertCell(5).innerHTML = items[index][7]; // Path
+                        row.insertCell(6).innerHTML = `<a href="javascript:void(0)">Download</a>`;
+                        table.rows[currentRow].cells[6].id = "download";
+                        row.insertCell(7).innerHTML = `<a href="javascript:void(0)">Copy URL</a>`;
+                        table.rows[currentRow].cells[7].id = "copy";
+                        currentRow++;
+                    };
+                if (match) break;
+                }
             }
+            if (limitResults && currentRow == maxResults) break;
         }
         let resultsString;
         if (currentRow > 0) {
