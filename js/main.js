@@ -11,7 +11,7 @@ document.querySelectorAll('.selects').forEach(el => el.addEventListener('change'
     }));
 
 function main() {
-    list = readTextFile("https://esetuk.github.io/repo-downloader/res/products2.csv");
+    list = readTextFile("https://esetuk.github.io/repo-downloader/res/products.csv");
     parseList(list);
     createTable();
 }
