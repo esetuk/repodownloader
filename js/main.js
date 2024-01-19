@@ -10,6 +10,10 @@ document.querySelectorAll('.selects').forEach(el => el.addEventListener('change'
       createTable();
     }));
 
+document.querySelectorAll('.checkboxes').forEach(el => el.addEventListener('change', event => { 
+    createTable();
+  }));
+
 document.getElementById('textfilter').addEventListener('keyup', event => {
     createTable();
 });
@@ -27,7 +31,7 @@ function parseList(list) {
         for (let j = 0; j < temp[i].length; j++) {
             temp[i][j] = temp[i][j].trim();
         }
-        let include = ["msi", "exe", "dmg", "sh", "bin", "pkg", "zip"];
+        let include = [".msi", ".exe", ".dmg", ".sh", ".bin", ".pkg", ".zip", ".apk"];
         if (temp[i].length != 0) {
         include.every(e => {
             if (temp[i][7].toLowerCase().includes(e)) {
@@ -59,6 +63,7 @@ function createTable() {
     table.classList.add("sortable");
     let textFilterText = document.getElementById("textfilter").value.toLowerCase();
     let limitResults = document.getElementById("limitresults").checked;
+    let englishResults = document.getElementById("englishresults").checked;
     let e = document.getElementById("product");
     let selected = e.options[e.selectedIndex].value;
     let currentRow = 0;
@@ -69,19 +74,21 @@ function createTable() {
                 for (let j = 0; j < items[index].length; j++) {
                     match = false;
                     if (items[index][j].toLowerCase().includes(textFilterText)|| textFilterText == "") {
-                        match = true;
-                        let row = table.insertRow(currentRow);
-                        row.insertCell(0).innerHTML = items[index][1]; // Product
-                        row.insertCell(1).innerHTML = items[index][3]; // Language
-                        row.insertCell(2).innerHTML = items[index][2]; // Version
-                        row.insertCell(3).innerHTML = items[index][4]; // Architecture
-                        row.insertCell(4).innerHTML = items[index][5]; // Platform
-                        row.insertCell(5).innerHTML = items[index][7]; // Path
-                        row.insertCell(6).innerHTML = `<a href="javascript:void(0)" class="links">Download</a>`;
-                        table.rows[currentRow].cells[6].id = "download";
-                        row.insertCell(7).innerHTML = `<a href="javascript:void(0)" class="links">Copy URL</a>`;
-                        table.rows[currentRow].cells[7].id = "copy";
-                        currentRow++;
+                        if ((englishResults && (items[index][j].toLowerCase() == "en_us" || items[index][j].toLowerCase() == "multilang")) || !englishResults) {
+                            match = true;
+                            let row = table.insertRow(currentRow);
+                            row.insertCell(0).innerHTML = items[index][1]; // Product
+                            row.insertCell(1).innerHTML = items[index][3]; // Language
+                            row.insertCell(2).innerHTML = items[index][2]; // Version
+                            row.insertCell(3).innerHTML = items[index][4]; // Architecture
+                            row.insertCell(4).innerHTML = items[index][5]; // Platform
+                            row.insertCell(5).innerHTML = items[index][7]; // Path
+                            row.insertCell(6).innerHTML = `<a href="javascript:void(0)" class="links">Download</a>`;
+                            table.rows[currentRow].cells[6].id = "download";
+                            row.insertCell(7).innerHTML = `<a href="javascript:void(0)" class="links">Copy URL</a>`;
+                            table.rows[currentRow].cells[7].id = "copy";
+                            currentRow++;
+                        }
                     };
                 if (match) break;
                 }
