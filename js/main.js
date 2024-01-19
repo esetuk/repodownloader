@@ -23,8 +23,16 @@ function parseList(list) {
         for (let j = 0; j < temp[i].length; j++) {
             temp[i][j] = temp[i][j].trim();
         }
-        // add more extensions
-        if ((temp[i].length != 0) && (temp[i][7].toLowerCase().includes("msi") || temp[i][7].toLowerCase().includes("exe") || temp[i][7].toLowerCase().includes("dmg"))) items.push(temp[i]);
+        let include = ["msi", "exe", "dmg", "sh", "bin", "pkg"];
+        if (temp[i].length != 0) {
+        include.every(e => {
+            if (temp[i][7].toLowerCase().includes(e)) {
+                items.push(temp[i]);
+                return false;
+            }
+            return true;
+            });
+        }
         if (!products.includes(temp[i][1]) && temp[i][1] != undefined) products.push(temp[i][1]);
     }
     var select = document.getElementById("product");
@@ -122,7 +130,7 @@ function action(e) {
 function downloadURL(url) {
     url = repoRoot + url;
     window.location.href = url;
-    toast("Downloading");
+    toast("Downloading package");
 }
 
 function copyURL(url) {
