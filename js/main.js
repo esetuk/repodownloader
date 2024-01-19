@@ -10,6 +10,10 @@ document.querySelectorAll('.selects').forEach(el => el.addEventListener('change'
       createTable();
     }));
 
+document.getElementById('textfilter').addEventListener('change', event => {
+    createTable();
+});
+
 function main() {
     list = readTextFile("https://esetuk.github.io/repo-downloader/res/products.csv");
     parseList(list);
@@ -52,11 +56,12 @@ function createTable() {
     let headers = ["Product", "Language", "Version", "Architecture", "Platform", "Path"];
     table = document.createElement("table");
     table.classList.add('center');
+    let textFilterText = document.getElementById("textfilter").value;
     let e = document.getElementById("product");
     let selected = e.options[e.selectedIndex].value;
     let currentRow = 0;
-        for (let index = 0; index < items.length; index++) {
-            if (items[index][1] == selected) {
+    for (let index = 0; index < items.length; index++) {
+        if (items[index][1] == selected) {
                 let row = table.insertRow(currentRow);
                 row.insertCell(0).innerHTML = items[index][1]; // Product
                 row.insertCell(1).innerHTML = items[index][3]; // Language
@@ -91,7 +96,7 @@ function createTable() {
 
 function toast(msg) {
     let el = document.createElement("div");
-    el.setAttribute("style", `font-weight:bold;font-size:small;position:absolute;top:10px;left:20px;width:auto;text-height:20px;padding:5px;text-align:left;vertical-align:middle;background-color:green;color:white`);
+    el.setAttribute("style", `font-weight:bold;font-size:small;position:fixed;top:10px;left:20px;width:auto;text-height:20px;padding:5px;text-align:left;vertical-align:middle;background-color:green;color:white`);
     el.innerHTML = msg;
     setTimeout(function () {
         el.parentNode.removeChild(el);
