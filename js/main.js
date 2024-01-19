@@ -1,8 +1,8 @@
-var items = [];
-var products = [];
-var list;
-var table;
-const repoRoot = "https://repository.eset.com/v1/";
+var productRows = [];
+var productNames = [];
+var productList;
+var resultsTable;
+const repoRootURL = "https://repository.eset.com/v1/";
 
 main();
 
@@ -19,13 +19,13 @@ document.getElementById('textfilter').addEventListener('keyup', event => {
 });
 
 function main() {
-    list = readTextFile("https://esetuk.github.io/repo-downloader/res/products.csv");
-    parseList(list);
+    productList = readTextFile("https://esetuk.github.io/repo-downloader/res/products.csv");
+    parseList(productList);
     createTable();
 }
 
-function parseList(list) {
-    temp = list.split(/[\r\n]+/);
+function parseList(productList) {
+    temp = productList.split(/[\r\n]+/);
     for (let i = 0; i < temp.length; i++) {
         temp[i] = temp[i].split(",").slice(0, -1);
         for (let j = 0; j < temp[i].length; j++) {
@@ -35,20 +35,20 @@ function parseList(list) {
         if (temp[i].length != 0) {
         include.every(e => {
             if (temp[i][7].toLowerCase().includes(e)) {
-                items.push(temp[i]);
+                productRows.push(temp[i]);
                 return false;
             }
             return true;
             });
         }
-        if (!products.includes(temp[i][1]) && temp[i][1] != undefined) products.push(temp[i][1]);
+        if (!productNames.includes(temp[i][1]) && temp[i][1] != undefined) productNames.push(temp[i][1]);
     }
     var select = document.getElementById("product");
-    products.shift();
-    products.sort();
-    items.shift();
-    for (let i = 0; i < products.length; i++){
-        var opt = products[i];
+    productNames.shift();
+    productNames.sort();
+    productRows.shift();
+    for (let i = 0; i < productNames.length; i++){
+        var opt = productNames[i];
         var el = document.createElement("option");
         el.textContent = opt;
         el.value = opt;
@@ -57,40 +57,37 @@ function parseList(list) {
 }
 
 function createTable() {
-    document.getElementById("results").innerHTML = "";
-    let headers = ["Product", "Language", "Version", "Platform", "Architecture", "Path", "", ""];
-    table = document.createElement("table");
-    table.classList.add("sortable");
-    let textFilterText = document.getElementById("textfilter").value.toLowerCase();
-    let limitResults = document.getElementById("limitresults").checked;
-    let englishResults = document.getElementById("englishresults").checked;
-    let e = document.getElementById("product");
-    let selected = e.options[e.selectedIndex].value;
+    const headers = ["Product", "Language", "Version", "Platform", "Architecture", "Path", "", ""];
+    const textFilterText = document.getElementById("textfilter").value.toLowerCase();
+    const limitResults = document.getElementById("limitresults").checked;
+    const englishResults = document.getElementById("englishresults").checked;
+    const e = document.getElementById("product");
+    const selected = e.options[e.selectedIndex].value;
+    const maxResults = 20;
     let currentRow = 0;
     let match = false;
-    const maxResults = 20;
-    // iterate through each row
-    for (let index = 0; index < items.length; index++) {
-        // match product (mandatory) in row
-        if (items[index][1] == selected) {
-                // iterate through each column in each row
-                for (let j = 0; j < items[index].length; j++) {
+    document.getElementById("results").innerHTML = "";
+    resultsTable = document.createElement("table");
+    resultsTable.classList.add("center");
+    for (let index = 0; index < productRows.length; index++) {
+        if (productRows[index][1] == selected) {
+                for (let j = 0; j < productRows[index].length; j++) {
                     match = false;
-                    if ((items[index][j].toLowerCase().includes(textFilterText)|| textFilterText == "")
-                    && (englishResults && (items[index][3].toLowerCase() == "en_us" || items[index][3].toLowerCase() == "multilang") || !englishResults))
+                    if ((productRows[index][j].toLowerCase().includes(textFilterText)|| textFilterText == "")
+                    && (englishResults && (productRows[index][3].toLowerCase() == "en_us" || productRows[index][3].toLowerCase() == "multilang") || !englishResults))
                     {
                         match = true;
-                        let row = table.insertRow(currentRow);
-                        row.insertCell(0).innerHTML = items[index][1]; // Product
-                        row.insertCell(1).innerHTML = items[index][3]; // Language
-                        row.insertCell(2).innerHTML = items[index][2]; // Version
-                        row.insertCell(3).innerHTML = items[index][4]; // Architecture
-                        row.insertCell(4).innerHTML = items[index][5]; // Platform
-                        row.insertCell(5).innerHTML = items[index][7]; // Path
+                        let row = resultsTable.insertRow(currentRow);
+                        row.insertCell(0).innerHTML = productRows[index][1]; // Product
+                        row.insertCell(1).innerHTML = productRows[index][3]; // Language
+                        row.insertCell(2).innerHTML = productRows[index][2]; // Version
+                        row.insertCell(3).innerHTML = productRows[index][4]; // Architecture
+                        row.insertCell(4).innerHTML = productRows[index][5]; // Platform
+                        row.insertCell(5).innerHTML = productRows[index][7]; // Path
                         row.insertCell(6).innerHTML = `<a href="javascript:void(0)" class="links">Download</a>`;
-                        table.rows[currentRow].cells[6].id = "download";
+                        resultsTable.rows[currentRow].cells[6].id = "download";
                         row.insertCell(7).innerHTML = `<a href="javascript:void(0)" class="links">Copy URL</a>`;
-                        table.rows[currentRow].cells[7].id = "copy";
+                        resultsTable.rows[currentRow].cells[7].id = "copy";
                         currentRow++;
                     }
                 if (match) break;
@@ -104,8 +101,8 @@ function createTable() {
             if (limitResults && currentRow >= maxResults) resultsString += " [LIMITED]";
             resultsString += "<br><br>";
             document.getElementById("results").innerHTML = resultsString;
-            document.getElementById("results").append(table);
-                var header = table.createTHead();
+            document.getElementById("results").append(resultsTable);
+                var header = resultsTable.createTHead();
                 var headerRow = header.insertRow(0);
                 headerRow.classList.add('th');
                 for(var i = 0; i < headers.length; i++) {
@@ -115,12 +112,12 @@ function createTable() {
             resultsString = "No results :(";
             document.getElementById("results").innerHTML = resultsString;
         }
-    table.addEventListener("click", function (e) { action(e); });
+    resultsTable.addEventListener("click", function (e) { action(e); });
 }
 
 function toast(msg) {
     let el = document.createElement("div");
-    el.setAttribute("style", `font-weight:bold;font-size:small;position:fixed;top:10px;left:20px;width:auto;text-height:20px;padding:5px;text-align:left;vertical-align:middle;background-color:green;color:white`);
+    el.classList.add('toast');
     el.innerHTML = msg;
     setTimeout(function () {
         el.parentNode.removeChild(el);
@@ -147,23 +144,23 @@ function action(e) {
     let cell = e.target.closest('td');
     switch (cell.id) {
         case "download":
-            downloadURL(table.rows[cell.parentElement.rowIndex].cells[5].innerHTML);
+            downloadURL(resultsTable.rows[cell.parentElement.rowIndex].cells[5].innerHTML);
             break;
         case "copy":
-            copyURL(table.rows[cell.parentElement.rowIndex].cells[5].innerHTML);
+            copyURL(resultsTable.rows[cell.parentElement.rowIndex].cells[5].innerHTML);
             break;
         default:
     }
 }
 
-function downloadURL(url) {
-    url = repoRoot + url;
+function downloadURL(path) {
+    url = repoRootURL + path;
     window.location.href = url;
     toast(`Downloading package from ${url}`);
 }
 
-function copyURL(url) {
-    url = repoRoot + url;
+function copyURL(path) {
+    url = repoRootURL + path;
     navigator.clipboard.writeText(url);
     toast(`Copied URL ${url} to clipboard`);
 }

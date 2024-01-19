@@ -43,7 +43,7 @@ h2 {
     padding: 0;
     width: auto;
     display: inline-block;
-    font-size: x-large !important;
+    font-size: xx-large !important;
 }
 a {
     text-decoration: none;
@@ -163,8 +163,18 @@ label {
     text-align: center;
     background-color: rgb(10,10,10);
 }
-#toastLabel {
+#toastContainer {
     visibility: hidden;
+}
+.toast {
+    font-weight: bold;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    padding: 5px;
+    text-align: center;
+    background-color: darkgreen;
+    color: white;
 }
 .center {
     margin-left: auto;
