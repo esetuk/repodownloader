@@ -69,30 +69,30 @@ function createTable() {
     let currentRow = 0;
     let match = false;
     const maxResults = 20;
+    // iterate through each row
     for (let index = 0; index < items.length; index++) {
+        // match product (mandatory) in row
         if (items[index][1] == selected) {
+                // iterate through each column in each row
                 for (let j = 0; j < items[index].length; j++) {
                     match = false;
-                    //if (items[index][j].toLowerCase().includes(textFilterText)|| textFilterText == "") {
-                        // breaks filter
-                        if ((items[index][j].toLowerCase().includes(textFilterText)|| textFilterText == "") && 
-                        (englishResults && (items[index][j].toLowerCase() == "en_us" || items[index][j].toLowerCase() == "multilang") ||
-                        !englishResults)) {
-                            match = true;
-                            let row = table.insertRow(currentRow);
-                            row.insertCell(0).innerHTML = items[index][1]; // Product
-                            row.insertCell(1).innerHTML = items[index][3]; // Language
-                            row.insertCell(2).innerHTML = items[index][2]; // Version
-                            row.insertCell(3).innerHTML = items[index][4]; // Architecture
-                            row.insertCell(4).innerHTML = items[index][5]; // Platform
-                            row.insertCell(5).innerHTML = items[index][7]; // Path
-                            row.insertCell(6).innerHTML = `<a href="javascript:void(0)" class="links">Download</a>`;
-                            table.rows[currentRow].cells[6].id = "download";
-                            row.insertCell(7).innerHTML = `<a href="javascript:void(0)" class="links">Copy URL</a>`;
-                            table.rows[currentRow].cells[7].id = "copy";
-                            currentRow++;
-                        }
-                    //}
+                    if ((items[index][j].toLowerCase().includes(textFilterText)|| textFilterText == "")
+                    && (englishResults && (items[index][3].toLowerCase() == "en_us" || items[index][3].toLowerCase() == "multilang") || !englishResults))
+                    {
+                        match = true;
+                        let row = table.insertRow(currentRow);
+                        row.insertCell(0).innerHTML = items[index][1]; // Product
+                        row.insertCell(1).innerHTML = items[index][3]; // Language
+                        row.insertCell(2).innerHTML = items[index][2]; // Version
+                        row.insertCell(3).innerHTML = items[index][4]; // Architecture
+                        row.insertCell(4).innerHTML = items[index][5]; // Platform
+                        row.insertCell(5).innerHTML = items[index][7]; // Path
+                        row.insertCell(6).innerHTML = `<a href="javascript:void(0)" class="links">Download</a>`;
+                        table.rows[currentRow].cells[6].id = "download";
+                        row.insertCell(7).innerHTML = `<a href="javascript:void(0)" class="links">Copy URL</a>`;
+                        table.rows[currentRow].cells[7].id = "copy";
+                        currentRow++;
+                    }
                 if (match) break;
                 }
             }
