@@ -155,5 +155,5 @@ function downloadURL(url) {
 function copyURL(url) {
     url = repoRoot + url;
     navigator.clipboard.writeText(url);
-    toast(`Copied URL [${url}] to clipboard`);
+    toast(`Copied URL ${url} to clipboard`);
 }
