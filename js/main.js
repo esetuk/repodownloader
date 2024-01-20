@@ -31,7 +31,7 @@ function parseList(productList) {
         for (let j = 0; j < temp[i].length; j++) {
             temp[i][j] = temp[i][j].trim();
         }
-        let include = [".msi", ".exe", ".dmg", ".sh", ".bin", ".pkg", ".zip", ".apk"];
+        let include = [".msi", ".exe", ".dmg", ".sh", ".bin", ".pkg", ".zip", ".apk", ".linux"];
         if (temp[i].length != 0) {
         include.every(e => {
             if (temp[i][7].toLowerCase().includes(e)) {
