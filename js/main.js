@@ -65,7 +65,6 @@ function clearFilter(){
     let textFilterText = document.getElementById('textFilter').value;
     if (textFilterText != "") {
         document.getElementById('textFilter').value = "";
-        toast("Filter cleared");
         createTable();
     }
 }
