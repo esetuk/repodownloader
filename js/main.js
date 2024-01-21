@@ -6,15 +6,20 @@ const repoRootURL = "https://repository.eset.com/v1/";
 
 main();
 
-document.querySelectorAll('.selects').forEach(el => el.addEventListener('change', event => { 
-      createTable();
-    }));
+document.getElementById('clearFilter').addEventListener('click', event => {
+    clearFilter();
+});
+
+document.querySelectorAll('.selects').forEach(el => el.addEventListener('change', event => {
+    clearFilter();
+    createTable();
+}));
 
 document.querySelectorAll('.checkboxes').forEach(el => el.addEventListener('change', event => { 
     createTable();
-  }));
+}));
 
-document.getElementById('textfilter').addEventListener('keyup', event => {
+document.getElementById('textFilter').addEventListener('keyup', event => {
     createTable();
 });
 
@@ -31,9 +36,9 @@ function parseList(productList) {
         for (let j = 0; j < temp[i].length; j++) {
             temp[i][j] = temp[i][j].trim();
         }
-        let include = [".msi", ".exe", ".dmg", ".sh", ".bin", ".pkg", ".zip", ".apk", ".linux"];
+        let includedExtensions = [".msi", ".exe", ".dmg", ".sh", ".bin", ".pkg", ".zip", ".apk", ".linux"];
         if (temp[i].length != 0) {
-        include.every(e => {
+        includedExtensions.every(e => {
             if (temp[i][7].toLowerCase().includes(e)) {
                 productRows.push(temp[i]);
                 return false;
@@ -56,9 +61,18 @@ function parseList(productList) {
     }
 }
 
+function clearFilter(){
+    let textFilterText = document.getElementById('textFilter').value;
+    if (textFilterText != "") {
+        document.getElementById('textFilter').value = "";
+        toast("Filter cleared");
+        createTable();
+    }
+}
+
 function createTable() {
     const headers = ["Product", "Language", "Version", "Platform", "Architecture", "Path", "", ""];
-    const textFilterText = document.getElementById("textfilter").value.toLowerCase();
+    const textFilterText = document.getElementById("textFilter").value.toLowerCase();
     const limitResults = document.getElementById("limitresults").checked;
     const englishResults = document.getElementById("englishresults").checked;
     const e = document.getElementById("product");

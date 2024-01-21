@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <form id="main" spellcheck="false" autocomplete="off">
+    <form id="main" spellcheck="false" autocomplete="off" class="disable-select">
         <div id="header" class="disable-select">
             <h2 id="headline">RepoDownloader</h2>
         </div>
@@ -18,7 +18,10 @@
                 <label class="labels" title="Product">Product</label>
                 <select class="selects" id="product"></select>
                 <label title="Case-insensitive search filter">Filter</label>
-                <input type="text" id="textfilter" placeholder="foo">
+                <div class="textFilterContainer">
+                    <input type="text" id="textFilter" placeholder="foo"></input>
+                    <button type="button" id="clearFilter"><img src="res/square-xmark-solid.svg" alt=""></button>
+                </div>
                 <label title="Maintain performance by limiting results to 20 items or less">Limit results</label>
                 <input class="checkboxes" type="checkbox" id="limitresults" checked="true" placeholder="">
                 <label title="Filter English or multi-language only">English only</label>
