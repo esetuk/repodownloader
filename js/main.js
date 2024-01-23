@@ -54,7 +54,7 @@ function parseList() {
         let includedExtensions = [".msi", ".exe", ".dmg", ".sh", ".bin", ".pkg", ".zip", ".apk", ".linux", ".war"];
         if (temp[i].length != 0) {
         includedExtensions.every(e => {
-            if (temp[i][7].toLowerCase().includes(e)) {
+            if (temp[i][7].toLowerCase().includes(e) && (temp[i][7].toLowerCase().includes("com/eset") || temp[i][7].toLowerCase().includes("third_party/apps"))) {
                 listRows.push(temp[i]);
                 return false;
             }
@@ -124,7 +124,7 @@ function createTable() {
     resultsTable.classList.add("center");
     let versions = [];
     for (let index = 0; index < listRows.length; index++) {
-        if ((listRows[index][1] == selectedProduct) && (listRows[index][4] == selectedPlatform || selectedPlatform == "All") && (listRows[index][5].includes(selectedArchitecture) || selectedArchitecture == "All") && ((listRows[index][7].includes("com/eset")) || (listRows[index][7].includes("third_party/apps")))) {
+        if ((listRows[index][1] == selectedProduct) && (listRows[index][4] == selectedPlatform || selectedPlatform == "All") && (listRows[index][5].includes(selectedArchitecture) || selectedArchitecture == "All")) {
                 for (let j = 0; j < listRows[index].length; j++) {
                     match = false;
                     if ((listRows[index][j].toLowerCase().includes(textSearchText)|| textSearchText == "")
