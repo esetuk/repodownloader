@@ -24,7 +24,7 @@ document.getElementById('textFilter').addEventListener('keyup', event => {
 });
 
 function main() {
-    productList = readTextFile("https://esetuk.github.io/repo-downloader/res/products.csv");
+    productList = readTextFile("https://esetuk.github.io/repodownloader/res/products.csv");
     parseList(productList);
     createTable();
 }
