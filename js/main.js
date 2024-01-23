@@ -162,7 +162,7 @@ function createTable() {
             headerRow.classList.add('th');
             for(var i = 0; i < headers.length; i++) {
                 headerRow.insertCell(i).innerHTML = headers[i];
-                }
+            }
         } else {
             resultsString = `No results :(  <a class="links" id="clearAll" href="javascript:void(0)">clear filters</a>`;
             _results.innerHTML = resultsString;
@@ -170,8 +170,9 @@ function createTable() {
                 clearAll();
             });
         }
-        versions.sort();
+        versions = versions.sort( (a, b) => a.localeCompare(b, undefined, { numeric:true }) );
         let latestVersion = versions[versions.length - 1];
+        console.log(latestVersion);
         for (var i = 1; i < resultsTable.rows.length; i++) {
             if (resultsTable.rows[i].cells[2].innerText == latestVersion) resultsTable.rows[i].cells[2].firstChild.classList.add("highlightLatest");
         }
