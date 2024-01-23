@@ -54,7 +54,10 @@ function parseList() {
         let includedExtensions = [".msi", ".exe", ".dmg", ".sh", ".bin", ".pkg", ".zip", ".apk", ".linux", ".war"];
         if (temp[i].length != 0) {
         includedExtensions.every(e => {
-            if (temp[i][7].toLowerCase().includes(e) && (temp[i][7].toLowerCase().includes("com/eset") || temp[i][7].toLowerCase().includes("third_party/apps"))) {
+            if (temp[i][7].toLowerCase().includes(e)) {
+                if (!temp[i][7].toLowerCase().includes("com/eset") && !temp[i][7].toLowerCase().includes("third_party/apps")) {
+                    temp[i][7] = temp[i][0].replaceAll(".", "/") + "/" + temp[i][7];
+                }
                 listRows.push(temp[i]);
                 return false;
             }

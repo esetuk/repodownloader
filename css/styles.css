@@ -218,3 +218,7 @@ label {
     text-align: center;
     font-weight: bold;
 }
+.separator {
+    color: rgb(40,40,40);
+    padding: 10px;
+}
