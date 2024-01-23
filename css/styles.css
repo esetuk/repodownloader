@@ -120,6 +120,7 @@ table {
     background-color: rgb(10,10,10);
     border: 1px solid rgb(40,40,40);
     width: auto;
+    white-space: nowrap;
 }
 table, th, td {
     border-collapse: collapse;
@@ -133,9 +134,8 @@ th {
     font-weight: bold;
 }
 td {
-    max-width: 200px;
-    word-wrap: break-word;
-    padding: 20px;
+    white-space: nowrap;
+    padding: 15px;
     border-bottom: 1px solid rgb(40,40,40);
     vertical-align: middle;
 }
