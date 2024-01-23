@@ -24,6 +24,7 @@ _clearSearch.addEventListener('click', event => {
 _selects.forEach(el => el.addEventListener('change', event => {
     clearSearch();
     createTable();
+    if (el.id == "product") clearAll();
 }));
 
 _checkboxes.forEach(el => el.addEventListener('change', event => { 
@@ -109,7 +110,7 @@ function clearAll(){
 }
 
 function createTable() {
-    const headers = ["Product", "Language", "Version", "Platform", "Architecture", "Path", "", ""];
+    const headers = ["Product", "Language", "Version", "Platform", "Architecture", "File Name", "", ""];
     const textSearchText = _textSearch.value.toLowerCase();
     const limitResults = _limitResults.checked;
     const englishResults = _englishResults.checked;
@@ -132,12 +133,13 @@ function createTable() {
                     {
                         match = true;
                         let row = resultsTable.insertRow(currentRow);
+                        let fileName = listRows[index][7].split("/")[listRows[index][7].split("/").length - 1]; 
                         row.insertCell(0).innerHTML = listRows[index][1]; // Product
                         row.insertCell(1).innerHTML = listRows[index][3]; // Language
                         row.insertCell(2).innerHTML = `<div>${listRows[index][2]}</div>`; // Version
                         row.insertCell(3).innerHTML = listRows[index][4]; // Architecture
                         row.insertCell(4).innerHTML = listRows[index][5]; // Platform
-                        row.insertCell(5).innerHTML = listRows[index][7]; // Path
+                        row.insertCell(5).innerHTML = fileName; // Path
                         row.insertCell(6).innerHTML = `<a href="javascript:void(0)" class="links">Download</a>`;
                         resultsTable.rows[currentRow].cells[6].id = "download";
                         row.insertCell(7).innerHTML = `<a href="javascript:void(0)" class="links">Copy URL</a>`;
