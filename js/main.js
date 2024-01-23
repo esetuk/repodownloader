@@ -172,7 +172,6 @@ function createTable() {
         }
         versions = versions.sort( (a, b) => a.localeCompare(b, undefined, { numeric:true }) );
         let latestVersion = versions[versions.length - 1];
-        console.log(latestVersion);
         for (var i = 1; i < resultsTable.rows.length; i++) {
             if (resultsTable.rows[i].cells[2].innerText == latestVersion) resultsTable.rows[i].cells[2].firstChild.classList.add("highlightLatest");
         }
