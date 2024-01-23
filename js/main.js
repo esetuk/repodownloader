@@ -6,24 +6,35 @@ var productList;
 var resultsTable;
 const repoRootURL = "https://repository.eset.com/v1/";
 
+const _clearSearch = document.getElementById('clearSearch');
+const _selects = document.querySelectorAll('.selects');
+const _checkboxes = document.querySelectorAll('.checkboxes');
+const _textSearch = document.getElementById('textSearch');
+const _product = document.getElementById("product");
+const _platform = document.getElementById("platform");
+const _architecture = document.getElementById("architecture");
+const _results = document.getElementById("results");
+const _limitResults = document.getElementById("limitresults");
+const _englishResults = document.getElementById("englishresults");
+
+_clearSearch.addEventListener('click', event => {
+    clearSearch();
+});
+
+_selects.forEach(el => el.addEventListener('change', event => {
+    clearSearch();
+    createTable();
+}));
+
+_checkboxes.forEach(el => el.addEventListener('change', event => { 
+    createTable();
+}));
+
+_textSearch.addEventListener('keyup', event => {
+    createTable();
+});
+
 main();
-
-document.getElementById('clearSearch').addEventListener('click', event => {
-    clearSearch();
-});
-
-document.querySelectorAll('.selects').forEach(el => el.addEventListener('change', event => {
-    clearSearch();
-    createTable();
-}));
-
-document.querySelectorAll('.checkboxes').forEach(el => el.addEventListener('change', event => { 
-    createTable();
-}));
-
-document.getElementById('textSearch').addEventListener('keyup', event => {
-    createTable();
-});
 
 function main() {
     productList = readTextFile("https://esetuk.github.io/repodownloader/res/products.csv");
@@ -57,7 +68,7 @@ function parseList() {
     productPlatforms.unshift("All");
     productArchitectures.unshift("All");
     for (let i = 0; i < productNames.length; i++){
-        var select = document.getElementById("product");
+        var select = _product;
         var opt = productNames[i];
         var el = document.createElement("option");
         el.textContent = opt;
@@ -65,7 +76,7 @@ function parseList() {
         select.appendChild(el);
     }
     for (let i = 0; i < productPlatforms.length; i++){
-        var select = document.getElementById("platform");
+        var select = _platform;
         var opt = productPlatforms[i];
         var el = document.createElement("option");
         el.textContent = opt;
@@ -73,7 +84,7 @@ function parseList() {
         select.appendChild(el);
     }
     for (let i = 0; i < productArchitectures.length; i++){
-        var select = document.getElementById("architecture");
+        var select = _architecture;
         var opt = productArchitectures[i];
         var el = document.createElement("option");
         el.textContent = opt;
@@ -83,25 +94,32 @@ function parseList() {
 }
 
 function clearSearch(){
-    let textSearchText = document.getElementById('textSearch').value;
-    if (textSearchText != "") {
-        document.getElementById('textSearch').value = "";
+    if (_textSearch.value != "") {
+        _textSearch.value = "";
         createTable();
     }
 }
 
+function clearAll(){
+    clearSearch();
+    _platform.selectedIndex = 0;
+    _architecture.selectedIndex = 0;
+    _product.selectedIndex = 0;
+    createTable();
+}
+
 function createTable() {
     const headers = ["Product", "Language", "Version", "Platform", "Architecture", "Path", "", ""];
-    const textSearchText = document.getElementById("textSearch").value.toLowerCase();
-    const limitResults = document.getElementById("limitresults").checked;
-    const englishResults = document.getElementById("englishresults").checked;
-    const selectedProduct = document.getElementById("product").options[document.getElementById("product").selectedIndex].value;
-    const selectedPlatform = document.getElementById("platform").options[document.getElementById("platform").selectedIndex].value;
-    const selectedArchitecture = document.getElementById("architecture").options[document.getElementById("architecture").selectedIndex].value;
+    const textSearchText = _textSearch.value.toLowerCase();
+    const limitResults = _limitResults.checked;
+    const englishResults = _englishResults.checked;
+    const selectedProduct = _product.options[_product.selectedIndex].value;
+    const selectedPlatform = _platform.options[_platform.selectedIndex].value;
+    const selectedArchitecture = _architecture.options[_architecture.selectedIndex].value;
     const maxResults = 20;
     let currentRow = 0;
     let match = false;
-    document.getElementById("results").innerHTML = "";
+    _results.innerHTML = "";
     resultsTable = document.createElement("table");
     resultsTable.classList.add("center");
     for (let index = 0; index < productRows.length; index++) {
@@ -135,8 +153,8 @@ function createTable() {
             resultsString = `${currentRow} results`;
             if (limitResults && currentRow >= maxResults) resultsString += " [LIMITED]";
             resultsString += "<br><br>";
-            document.getElementById("results").innerHTML = resultsString;
-            document.getElementById("results").append(resultsTable);
+            _results.innerHTML = resultsString;
+            _results.append(resultsTable);
                 var header = resultsTable.createTHead();
                 var headerRow = header.insertRow(0);
                 headerRow.classList.add('th');
@@ -144,8 +162,11 @@ function createTable() {
                     headerRow.insertCell(i).innerHTML = headers[i];
                 }
         } else {
-            resultsString = `No results :(  <a class="links" href="javascript:void(0)">clear filters</a>`;
-            document.getElementById("results").innerHTML = resultsString;
+            resultsString = `No results :(  <a class="links" id="clearAll" href="javascript:void(0)">clear filters</a>`;
+            _results.innerHTML = resultsString;
+            document.getElementById('clearAll').addEventListener('click', event => {
+                clearAll();
+            });
         }
     resultsTable.addEventListener("click", function (e) { action(e); });
 }
