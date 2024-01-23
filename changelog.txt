@@ -1,6 +1,5 @@
 23-01-2024:
--Filtered out non-valid URLs
--Rebuilt missing paths in URLs
+-Added functionality to rebuild URLs with missing paths
 -Styling changes
 
 16-01-2024:
