@@ -183,19 +183,22 @@ label {
     border: none;
     background-color: black;
 }
-#clearFilter {
+#clearSearch {
     -webkit-filter: invert(1);
     filter: invert(1);
 }
-#textFilter {
+#textSearch {
     border: none;
     margin: 0;
 }
-.textFilterContainer {
+.searchContainer {
     border: 1px solid rgb(40,40,40);
     width: auto;
     display: inline-block;
     padding: 0;
     margin: 0;
     background-color: black;
+}
+.componentContainer {
+    display: inline-block;
 }

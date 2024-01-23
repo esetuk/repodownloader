@@ -1,17 +1,19 @@
 var productRows = [];
 var productNames = [];
+var productPlatforms = [];
+var productArchitectures = [];
 var productList;
 var resultsTable;
 const repoRootURL = "https://repository.eset.com/v1/";
 
 main();
 
-document.getElementById('clearFilter').addEventListener('click', event => {
-    clearFilter();
+document.getElementById('clearSearch').addEventListener('click', event => {
+    clearSearch();
 });
 
 document.querySelectorAll('.selects').forEach(el => el.addEventListener('change', event => {
-    clearFilter();
+    clearSearch();
     createTable();
 }));
 
@@ -19,18 +21,19 @@ document.querySelectorAll('.checkboxes').forEach(el => el.addEventListener('chan
     createTable();
 }));
 
-document.getElementById('textFilter').addEventListener('keyup', event => {
+document.getElementById('textSearch').addEventListener('keyup', event => {
     createTable();
 });
 
 function main() {
     productList = readTextFile("https://esetuk.github.io/repodownloader/res/products.csv");
-    parseList(productList);
+    parseList();
     createTable();
 }
 
-function parseList(productList) {
+function parseList() {
     temp = productList.split(/[\r\n]+/);
+    temp.shift();
     for (let i = 0; i < temp.length; i++) {
         temp[i] = temp[i].split(",").slice(0, -1);
         for (let j = 0; j < temp[i].length; j++) {
@@ -46,14 +49,32 @@ function parseList(productList) {
             return true;
             });
         }
-        if (!productNames.includes(temp[i][1]) && temp[i][1] != undefined) productNames.push(temp[i][1]);
+        if (!productNames.includes(temp[i][1]) && temp[i][1] != undefined && temp[i][1] != "") productNames.push(temp[i][1]);
+        if (!productPlatforms.includes(temp[i][4]) && temp[i][4] != undefined && temp[i][4] != "") productPlatforms.push(temp[i][4]);
+        if (!productArchitectures.includes(temp[i][5]) && temp[i][5] != undefined && temp[i][5] != "" && !temp[i][5].includes(";")) productArchitectures.push(temp[i][5]);
     }
-    var select = document.getElementById("product");
-    productNames.shift();
     productNames.sort();
-    productRows.shift();
+    productPlatforms.unshift("All");
+    productArchitectures.unshift("All");
     for (let i = 0; i < productNames.length; i++){
+        var select = document.getElementById("product");
         var opt = productNames[i];
+        var el = document.createElement("option");
+        el.textContent = opt;
+        el.value = opt;
+        select.appendChild(el);
+    }
+    for (let i = 0; i < productPlatforms.length; i++){
+        var select = document.getElementById("platform");
+        var opt = productPlatforms[i];
+        var el = document.createElement("option");
+        el.textContent = opt;
+        el.value = opt;
+        select.appendChild(el);
+    }
+    for (let i = 0; i < productArchitectures.length; i++){
+        var select = document.getElementById("architecture");
+        var opt = productArchitectures[i];
         var el = document.createElement("option");
         el.textContent = opt;
         el.value = opt;
@@ -61,21 +82,22 @@ function parseList(productList) {
     }
 }
 
-function clearFilter(){
-    let textFilterText = document.getElementById('textFilter').value;
-    if (textFilterText != "") {
-        document.getElementById('textFilter').value = "";
+function clearSearch(){
+    let textSearchText = document.getElementById('textSearch').value;
+    if (textSearchText != "") {
+        document.getElementById('textSearch').value = "";
         createTable();
     }
 }
 
 function createTable() {
     const headers = ["Product", "Language", "Version", "Platform", "Architecture", "Path", "", ""];
-    const textFilterText = document.getElementById("textFilter").value.toLowerCase();
+    const textSearchText = document.getElementById("textSearch").value.toLowerCase();
     const limitResults = document.getElementById("limitresults").checked;
     const englishResults = document.getElementById("englishresults").checked;
-    const e = document.getElementById("product");
-    const selected = e.options[e.selectedIndex].value;
+    const selectedProduct = document.getElementById("product").options[document.getElementById("product").selectedIndex].value;
+    const selectedPlatform = document.getElementById("platform").options[document.getElementById("platform").selectedIndex].value;
+    const selectedArchitecture = document.getElementById("architecture").options[document.getElementById("architecture").selectedIndex].value;
     const maxResults = 20;
     let currentRow = 0;
     let match = false;
@@ -83,10 +105,10 @@ function createTable() {
     resultsTable = document.createElement("table");
     resultsTable.classList.add("center");
     for (let index = 0; index < productRows.length; index++) {
-        if (productRows[index][1] == selected) {
+        if ((productRows[index][1] == selectedProduct) && (productRows[index][4] == selectedPlatform || selectedPlatform == "All") && (productRows[index][5].includes(selectedArchitecture) || selectedArchitecture == "All")) {
                 for (let j = 0; j < productRows[index].length; j++) {
                     match = false;
-                    if ((productRows[index][j].toLowerCase().includes(textFilterText)|| textFilterText == "")
+                    if ((productRows[index][j].toLowerCase().includes(textSearchText)|| textSearchText == "")
                     && (englishResults && (productRows[index][3].toLowerCase() == "en_us" || productRows[index][3].toLowerCase() == "multilang") || !englishResults))
                     {
                         match = true;
@@ -122,7 +144,7 @@ function createTable() {
                     headerRow.insertCell(i).innerHTML = headers[i];
                 }
         } else {
-            resultsString = "No results :(";
+            resultsString = `No results :(  <a class="links" href="javascript:void(0)">clear filters</a>`;
             document.getElementById("results").innerHTML = resultsString;
         }
     resultsTable.addEventListener("click", function (e) { action(e); });
