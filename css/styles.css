@@ -119,7 +119,7 @@ table {
     text-align: center;
     background-color: rgb(10,10,10);
     border: 1px solid rgb(40,40,40);
-    width: auto;
+    width: 60%;
     white-space: nowrap;
 }
 table, th, td {
@@ -138,6 +138,9 @@ td {
     padding: 15px;
     border-bottom: 1px solid rgb(40,40,40);
     vertical-align: middle;
+}
+tr:nth-child(even) {
+    background-color: rgb(20,20,20);
 }
 label {
     display: inline-block;
@@ -213,6 +216,5 @@ label {
     background-color: green;
     color: white;
     text-align: center;
-    margin: 5px;
     font-weight: bold;
 }
