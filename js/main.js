@@ -51,7 +51,7 @@ function parseList() {
         for (let j = 0; j < temp[i].length; j++) {
             temp[i][j] = temp[i][j].trim();
         }
-        let includedExtensions = [".msi", ".exe", ".dmg", ".sh", ".bin", ".pkg", ".zip", ".apk", ".linux"];
+        let includedExtensions = [".msi", ".exe", ".dmg", ".sh", ".bin", ".pkg", ".zip", ".apk", ".linux", ".war"];
         if (temp[i].length != 0) {
         includedExtensions.every(e => {
             if (temp[i][7].toLowerCase().includes(e)) {
@@ -124,7 +124,7 @@ function createTable() {
     resultsTable.classList.add("center");
     let versions = [];
     for (let index = 0; index < listRows.length; index++) {
-        if ((listRows[index][1] == selectedProduct) && (listRows[index][4] == selectedPlatform || selectedPlatform == "All") && (listRows[index][5].includes(selectedArchitecture) || selectedArchitecture == "All")) {
+        if ((listRows[index][1] == selectedProduct) && (listRows[index][4] == selectedPlatform || selectedPlatform == "All") && (listRows[index][5].includes(selectedArchitecture) || selectedArchitecture == "All") && ((listRows[index][7].includes("com/eset")) || (listRows[index][7].includes("third_party//apps")))) {
                 for (let j = 0; j < listRows[index].length; j++) {
                     match = false;
                     if ((listRows[index][j].toLowerCase().includes(textSearchText)|| textSearchText == "")
@@ -138,9 +138,9 @@ function createTable() {
                         row.insertCell(3).innerHTML = listRows[index][4]; // Architecture
                         row.insertCell(4).innerHTML = listRows[index][5]; // Platform
                         row.insertCell(5).innerHTML = listRows[index][7]; // Path
-                        row.insertCell(6).innerHTML = `<a href="javascript:void(0)" class="links">Download</a>`;
+                        row.insertCell(6).innerHTML = `<a href="javascript:void(0)" class="links"><img src="res/downloadButton.png" alt=""></img></a>`;
                         resultsTable.rows[currentRow].cells[6].id = "download";
-                        row.insertCell(7).innerHTML = `<a href="javascript:void(0)" class="links">Copy URL</a>`;
+                        row.insertCell(7).innerHTML = `<a href="javascript:void(0)" class="links"><img src="res/copyButton.png" alt=""></img></a>`;
                         resultsTable.rows[currentRow].cells[7].id = "copy";
                         currentRow++;
                         versions.push(listRows[index][2]);
