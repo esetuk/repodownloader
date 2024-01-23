@@ -14,20 +14,6 @@ html, body {
     width: 100%;
     background-color: black;
 }
-.navigation {
-    height: 35px;
-    line-height: 35px;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    display: inline-block;
-    color: darkgray;
-
-}
-.links {
-    color: dodgerblue;
-}
 #header {
     text-align: center;
     border-bottom: 1px solid rgb(40,40,40);
@@ -190,6 +176,10 @@ label {
 #clearSearch {
     -webkit-filter: invert(1);
     filter: invert(1);
+}
+#clearAll {
+    padding-left: 20px;
+    vertical-align: middle;
 }
 #textSearch {
     border: none;

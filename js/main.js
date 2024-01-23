@@ -166,7 +166,7 @@ function createTable() {
                 headerRow.insertCell(i).innerHTML = headers[i];
             }
         } else {
-            resultsString = `No results :(  <a class="links" id="clearAll" href="javascript:void(0)">clear filters</a>`;
+            resultsString = `No results :(`;
             _results.innerHTML = resultsString;
             document.getElementById('clearAll').addEventListener('click', event => {
                 clearAll();
