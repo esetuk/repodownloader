@@ -1,8 +1,8 @@
-var productRows = [];
-var productNames = [];
-var productPlatforms = [];
-var productArchitectures = [];
-var productList;
+var listRows = [];
+var listProducts = [];
+var listPlatforms = [];
+var listArchitectures = [];
+var masterList;
 var resultsTable;
 const repoRootURL = "https://repository.eset.com/v1/";
 
@@ -37,13 +37,13 @@ _textSearch.addEventListener('keyup', event => {
 main();
 
 function main() {
-    productList = readTextFile("https://esetuk.github.io/repodownloader/res/products.csv");
+    masterList = readTextFile("https://esetuk.github.io/repodownloader/res/products.csv");
     parseList();
     createTable();
 }
 
 function parseList() {
-    temp = productList.split(/[\r\n]+/);
+    temp = masterList.split(/[\r\n]+/);
     temp.shift();
     for (let i = 0; i < temp.length; i++) {
         temp[i] = temp[i].split(",").slice(0, -1);
@@ -54,38 +54,38 @@ function parseList() {
         if (temp[i].length != 0) {
         includedExtensions.every(e => {
             if (temp[i][7].toLowerCase().includes(e)) {
-                productRows.push(temp[i]);
+                listRows.push(temp[i]);
                 return false;
             }
             return true;
             });
         }
-        if (!productNames.includes(temp[i][1]) && temp[i][1] != undefined && temp[i][1] != "") productNames.push(temp[i][1]);
-        if (!productPlatforms.includes(temp[i][4]) && temp[i][4] != undefined && temp[i][4] != "") productPlatforms.push(temp[i][4]);
-        if (!productArchitectures.includes(temp[i][5]) && temp[i][5] != undefined && temp[i][5] != "" && !temp[i][5].includes(";")) productArchitectures.push(temp[i][5]);
+        if (!listProducts.includes(temp[i][1]) && temp[i][1] != undefined && temp[i][1] != "") listProducts.push(temp[i][1]);
+        if (!listPlatforms.includes(temp[i][4]) && temp[i][4] != undefined && temp[i][4] != "") listPlatforms.push(temp[i][4]);
+        if (!listArchitectures.includes(temp[i][5]) && temp[i][5] != undefined && temp[i][5] != "" && !temp[i][5].includes(";")) listArchitectures.push(temp[i][5]);
     }
-    productNames.sort();
-    productPlatforms.unshift("All");
-    productArchitectures.unshift("All");
-    for (let i = 0; i < productNames.length; i++){
+    listProducts.sort();
+    listPlatforms.unshift("All");
+    listArchitectures.unshift("All");
+    for (let i = 0; i < listProducts.length; i++){
         var select = _product;
-        var opt = productNames[i];
+        var opt = listProducts[i];
         var el = document.createElement("option");
         el.textContent = opt;
         el.value = opt;
         select.appendChild(el);
     }
-    for (let i = 0; i < productPlatforms.length; i++){
+    for (let i = 0; i < listPlatforms.length; i++){
         var select = _platform;
-        var opt = productPlatforms[i];
+        var opt = listPlatforms[i];
         var el = document.createElement("option");
         el.textContent = opt;
         el.value = opt;
         select.appendChild(el);
     }
-    for (let i = 0; i < productArchitectures.length; i++){
+    for (let i = 0; i < listArchitectures.length; i++){
         var select = _architecture;
-        var opt = productArchitectures[i];
+        var opt = listArchitectures[i];
         var el = document.createElement("option");
         el.textContent = opt;
         el.value = opt;
@@ -122,26 +122,28 @@ function createTable() {
     _results.innerHTML = "";
     resultsTable = document.createElement("table");
     resultsTable.classList.add("center");
-    for (let index = 0; index < productRows.length; index++) {
-        if ((productRows[index][1] == selectedProduct) && (productRows[index][4] == selectedPlatform || selectedPlatform == "All") && (productRows[index][5].includes(selectedArchitecture) || selectedArchitecture == "All")) {
-                for (let j = 0; j < productRows[index].length; j++) {
+    let versions = [];
+    for (let index = 0; index < listRows.length; index++) {
+        if ((listRows[index][1] == selectedProduct) && (listRows[index][4] == selectedPlatform || selectedPlatform == "All") && (listRows[index][5].includes(selectedArchitecture) || selectedArchitecture == "All")) {
+                for (let j = 0; j < listRows[index].length; j++) {
                     match = false;
-                    if ((productRows[index][j].toLowerCase().includes(textSearchText)|| textSearchText == "")
-                    && (englishResults && (productRows[index][3].toLowerCase() == "en_us" || productRows[index][3].toLowerCase() == "multilang") || !englishResults))
+                    if ((listRows[index][j].toLowerCase().includes(textSearchText)|| textSearchText == "")
+                    && (englishResults && (listRows[index][3].toLowerCase() == "en_us" || listRows[index][3].toLowerCase() == "multilang") || !englishResults))
                     {
                         match = true;
                         let row = resultsTable.insertRow(currentRow);
-                        row.insertCell(0).innerHTML = productRows[index][1]; // Product
-                        row.insertCell(1).innerHTML = productRows[index][3]; // Language
-                        row.insertCell(2).innerHTML = productRows[index][2]; // Version
-                        row.insertCell(3).innerHTML = productRows[index][4]; // Architecture
-                        row.insertCell(4).innerHTML = productRows[index][5]; // Platform
-                        row.insertCell(5).innerHTML = productRows[index][7]; // Path
+                        row.insertCell(0).innerHTML = listRows[index][1]; // Product
+                        row.insertCell(1).innerHTML = listRows[index][3]; // Language
+                        row.insertCell(2).innerHTML = `<div>${listRows[index][2]}</div>`; // Version
+                        row.insertCell(3).innerHTML = listRows[index][4]; // Architecture
+                        row.insertCell(4).innerHTML = listRows[index][5]; // Platform
+                        row.insertCell(5).innerHTML = listRows[index][7]; // Path
                         row.insertCell(6).innerHTML = `<a href="javascript:void(0)" class="links">Download</a>`;
                         resultsTable.rows[currentRow].cells[6].id = "download";
                         row.insertCell(7).innerHTML = `<a href="javascript:void(0)" class="links">Copy URL</a>`;
                         resultsTable.rows[currentRow].cells[7].id = "copy";
                         currentRow++;
+                        versions.push(listRows[index][2]);
                     }
                 if (match) break;
                 }
@@ -155,11 +157,11 @@ function createTable() {
             resultsString += "<br><br>";
             _results.innerHTML = resultsString;
             _results.append(resultsTable);
-                var header = resultsTable.createTHead();
-                var headerRow = header.insertRow(0);
-                headerRow.classList.add('th');
-                for(var i = 0; i < headers.length; i++) {
-                    headerRow.insertCell(i).innerHTML = headers[i];
+            var header = resultsTable.createTHead();
+            var headerRow = header.insertRow(0);
+            headerRow.classList.add('th');
+            for(var i = 0; i < headers.length; i++) {
+                headerRow.insertCell(i).innerHTML = headers[i];
                 }
         } else {
             resultsString = `No results :(  <a class="links" id="clearAll" href="javascript:void(0)">clear filters</a>`;
@@ -167,6 +169,11 @@ function createTable() {
             document.getElementById('clearAll').addEventListener('click', event => {
                 clearAll();
             });
+        }
+        versions.sort();
+        let latestVersion = versions[versions.length - 1];
+        for (var i = 1; i < resultsTable.rows.length; i++) {
+            if (resultsTable.rows[i].cells[2].innerText == latestVersion) resultsTable.rows[i].cells[2].firstChild.classList.add("highlightLatest");
         }
     resultsTable.addEventListener("click", function (e) { action(e); });
 }
