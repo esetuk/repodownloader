@@ -138,9 +138,9 @@ function createTable() {
                         row.insertCell(3).innerHTML = listRows[index][4]; // Architecture
                         row.insertCell(4).innerHTML = listRows[index][5]; // Platform
                         row.insertCell(5).innerHTML = listRows[index][7]; // Path
-                        row.insertCell(6).innerHTML = `<a href="javascript:void(0)" class="links"><img src="res/downloadButton.png" alt=""></img></a>`;
+                        row.insertCell(6).innerHTML = `<a href="javascript:void(0)" class="links"><img src="res/downloadButton.png" alt="Download"></img></a>`;
                         resultsTable.rows[currentRow].cells[6].id = "download";
-                        row.insertCell(7).innerHTML = `<a href="javascript:void(0)" class="links"><img src="res/copyButton.png" alt=""></img></a>`;
+                        row.insertCell(7).innerHTML = `<a href="javascript:void(0)" class="links"><img src="res/copyButton.png" alt="Copy"></img></a>`;
                         resultsTable.rows[currentRow].cells[7].id = "copy";
                         currentRow++;
                         versions.push(listRows[index][2]);
