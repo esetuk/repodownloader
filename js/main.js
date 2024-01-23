@@ -22,7 +22,6 @@ _clearSearch.addEventListener('click', event => {
 });
 
 _selects.forEach(el => el.addEventListener('change', event => {
-    clearSearch();
     createTable();
     if (el.id == "product") clearAll();
 }));
