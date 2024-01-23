@@ -105,7 +105,6 @@ function clearAll(){
     clearSearch();
     _platform.selectedIndex = 0;
     _architecture.selectedIndex = 0;
-    _product.selectedIndex = 0;
     createTable();
 }
 
