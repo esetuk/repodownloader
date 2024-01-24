@@ -166,7 +166,7 @@ function createTable() {
                 headerRow.insertCell(i).innerHTML = headers[i];
             }
         } else {
-            resultsString = `<img id="sadFace" class="rotate" src="res/juan.png" alt=":("></img><br><br>No results`;
+            resultsString = `<img id="sadFace" class="rotate" src="res/sadface.png" alt=":("></img><br><br>No results`;
             _results.innerHTML = resultsString;
             document.getElementById('clearAll').addEventListener('click', event => {
                 clearAll();

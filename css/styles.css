@@ -215,21 +215,6 @@ label {
 #sadFace {
     width: 64px;
     height: 64px;
+    -webkit-filter: invert(1);
+    filter: invert(1);
 }
-
-.rotate {
-    animation: rotation 2s infinite linear;
-    -webkit-filter: drop-shadow(2px 2px 0 black)
-    drop-shadow(-2px -2px 0 black);
-    filter: drop-shadow(2px 2px 0 black) 
-    drop-shadow(-2px -2px 0 black);
-}
-
-@keyframes rotation {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(359deg);
-    }
-  }
