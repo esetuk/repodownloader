@@ -20,6 +20,7 @@ const _englishResults = document.getElementById("englishResults");
 const _fullPackage = document.getElementById("fullPackage");
 const _legacy = document.getElementById("legacy");
 const _latest = document.getElementById("latest");
+const maxResults = 20;
 
 _clearSearch.addEventListener('click', event => {
     clearSearch();
@@ -124,7 +125,6 @@ function createTable() {
     const selectedProduct = _product.options[_product.selectedIndex].value;
     const selectedPlatform = _platform.options[_platform.selectedIndex].value;
     const selectedArchitecture = _architecture.options[_architecture.selectedIndex].value;
-    const maxResults = 20;
     let currentRow = 0;
     let match = false;
     _results.innerHTML = "";
@@ -162,12 +162,7 @@ function createTable() {
             }
             if (_limitResults.checked && currentRow == maxResults) break;
         }
-        let resultsString;
         if (currentRow > 0) {
-            resultsString = `${currentRow} results`;
-            if (_limitResults.checked && currentRow >= maxResults) resultsString += " [LIMITED]";
-            resultsString += "<br><br>";
-            _results.innerHTML = resultsString;
             _results.append(resultsTable);
             var header = resultsTable.createTHead();
             var headerRow = header.insertRow(0);
@@ -175,9 +170,6 @@ function createTable() {
             for(var i = 0; i < headers.length; i++) {
                 headerRow.insertCell(i).innerHTML = headers[i];
             }
-        } else {
-            resultsString = `<img id="sadFace" class="rotate" src="res/sadface.png" draggable="false" alt=":("></img><br><br>No results`;
-            _results.innerHTML = resultsString;
         }
         versions = versions.sort( (a, b) => a.localeCompare(b, undefined, { numeric:true }) );
         let latestVersion = versions[versions.length - 1];
@@ -190,7 +182,20 @@ function createTable() {
                 i--;
             }
         }
+        resultCount();
     resultsTable.addEventListener("click", function (e) { action(e); });
+}
+
+function resultCount() {
+    let numberOfRows = resultsTable.rows.length - 1;
+    if (numberOfRows > 0) {
+        resultsString = `${numberOfRows} results`;
+        if (_limitResults.checked && numberOfRows >= maxResults) resultsString += " [LIMITED]";
+        resultsString += "<br><br>";
+    } else {
+        resultsString = `<img id="sadFace" class="rotate" src="res/sadface.png" draggable="false" alt=":("></img><br><br>No results`;
+    }
+    _results.insertAdjacentHTML("afterbegin", resultsString);
 }
 
 function toast(msg) {
