@@ -19,6 +19,7 @@ const _limitResults = document.getElementById("limitResults");
 const _englishResults = document.getElementById("englishResults");
 const _fullPackage = document.getElementById("fullPackage");
 const _legacy = document.getElementById("legacy");
+const _latest = document.getElementById("latest");
 
 _clearSearch.addEventListener('click', event => {
     clearSearch();
@@ -183,6 +184,11 @@ function createTable() {
         for (var i = 1; i < resultsTable.rows.length; i++) {
             if (resultsTable.rows[i].cells[2].innerText == latestVersion) resultsTable.rows[i].cells[2].firstChild.classList.add("highlightLatest");
             if (resultsTable.rows[i].cells[6].innerText == 1) resultsTable.rows[i].cells[2].firstChild.classList.add("highlightLegacy");
+            // here
+            if (_latest.checked && resultsTable.rows[i].cells[2].innerText != latestVersion) {
+                resultsTable.deleteRow(i);
+                i--;
+            }
         }
     resultsTable.addEventListener("click", function (e) { action(e); });
 }
