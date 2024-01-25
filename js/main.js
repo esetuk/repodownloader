@@ -7,6 +7,7 @@ var resultsTable;
 const repoRootURL = "https://repository.eset.com/v1/";
 
 const _clearSearch = document.getElementById('clearSearch');
+const _clearAll = document.getElementById('clearAll');
 const _selects = document.querySelectorAll('.selects');
 const _checkboxes = document.querySelectorAll('.checkboxes');
 const _textSearch = document.getElementById('textSearch');
@@ -14,11 +15,17 @@ const _product = document.getElementById("product");
 const _platform = document.getElementById("platform");
 const _architecture = document.getElementById("architecture");
 const _results = document.getElementById("results");
-const _limitResults = document.getElementById("limitresults");
-const _englishResults = document.getElementById("englishresults");
+const _limitResults = document.getElementById("limitResults");
+const _englishResults = document.getElementById("englishResults");
+const _fullPackage = document.getElementById("fullPackage");
+const _legacy = document.getElementById("legacy");
 
 _clearSearch.addEventListener('click', event => {
     clearSearch();
+});
+
+_clearAll.addEventListener('click', event => {
+    clearAll();
 });
 
 _selects.forEach(el => el.addEventListener('change', event => {
@@ -111,10 +118,8 @@ function clearAll(){
 }
 
 function createTable() {
-    const headers = ["Product", "Language", "Version", "Platform", "Architecture", "Path", "", ""];
+    const headers = ["Product", "Language", "Version", "Platform", "Architecture", "Path", "Legacy", "", ""];
     const textSearchText = _textSearch.value.toLowerCase();
-    const limitResults = _limitResults.checked;
-    const englishResults = _englishResults.checked;
     const selectedProduct = _product.options[_product.selectedIndex].value;
     const selectedPlatform = _platform.options[_platform.selectedIndex].value;
     const selectedArchitecture = _architecture.options[_architecture.selectedIndex].value;
@@ -129,8 +134,11 @@ function createTable() {
         if ((listRows[index][1] == selectedProduct) && (listRows[index][4] == selectedPlatform || selectedPlatform == "All") && (listRows[index][5].includes(selectedArchitecture) || selectedArchitecture == "All")) {
                 for (let j = 0; j < listRows[index].length; j++) {
                     match = false;
-                    if ((listRows[index][j].toLowerCase().includes(textSearchText)|| textSearchText == "")
-                    && (englishResults && (listRows[index][3].toLowerCase() == "en_us" || listRows[index][3].toLowerCase() == "multilang") || !englishResults))
+                    if (
+                        (!_legacy.checked && listRows[index][6] == 0 || _legacy.checked) &&
+                        (!_fullPackage.checked || (_fullPackage.checked && (listRows[index][7].includes("full") && (listRows[index][1] == "ESET Endpoint Antivirus" || listRows[index][1] == "ESET Endpoint Security")) || (listRows[index][1] != "ESET Endpoint Antivirus" && listRows[index][1] != "ESET Endpoint Security"))) &&
+                        (listRows[index][j].toLowerCase().includes(textSearchText) || textSearchText == "") &&
+                        (_englishResults.checked && (listRows[index][3].toLowerCase() == "en_us" || listRows[index][3].toLowerCase() == "multilang") || !_englishResults.checked))
                     {
                         match = true;
                         let row = resultsTable.insertRow(currentRow);
@@ -140,22 +148,23 @@ function createTable() {
                         row.insertCell(3).innerHTML = listRows[index][4]; // Architecture
                         row.insertCell(4).innerHTML = listRows[index][5]; // Platform
                         row.insertCell(5).innerHTML = listRows[index][7]; // Path
-                        row.insertCell(6).innerHTML = `<a href="javascript:void(0)" class="links"><img src="res/downloadbutton.png" alt="Download"></img></a>`;
-                        resultsTable.rows[currentRow].cells[6].id = "download";
-                        row.insertCell(7).innerHTML = `<a href="javascript:void(0)" class="links"><img src="res/copybutton.png" alt="Copy"></img></a>`;
-                        resultsTable.rows[currentRow].cells[7].id = "copy";
+                        row.insertCell(6).innerHTML = listRows[index][6]; // Legacy
+                        row.insertCell(7).innerHTML = `<a href="javascript:void(0)" class="links"><img src="res/downloadbutton.png" alt="Download"></img></a>`;
+                        resultsTable.rows[currentRow].cells[7].id = "download";
+                        row.insertCell(8).innerHTML = `<a href="javascript:void(0)" class="links"><img src="res/copybutton.png" alt="Copy"></img></a>`;
+                        resultsTable.rows[currentRow].cells[8].id = "copy";
                         currentRow++;
                         versions.push(listRows[index][2]);
                     }
                 if (match) break;
                 }
             }
-            if (limitResults && currentRow == maxResults) break;
+            if (_limitResults.checked && currentRow == maxResults) break;
         }
         let resultsString;
         if (currentRow > 0) {
             resultsString = `${currentRow} results`;
-            if (limitResults && currentRow >= maxResults) resultsString += " [LIMITED]";
+            if (_limitResults.checked && currentRow >= maxResults) resultsString += " [LIMITED]";
             resultsString += "<br><br>";
             _results.innerHTML = resultsString;
             _results.append(resultsTable);
@@ -168,14 +177,12 @@ function createTable() {
         } else {
             resultsString = `<img id="sadFace" class="rotate" src="res/sadface.png" draggable="false" alt=":("></img><br><br>No results`;
             _results.innerHTML = resultsString;
-            document.getElementById('clearAll').addEventListener('click', event => {
-                clearAll();
-            });
         }
         versions = versions.sort( (a, b) => a.localeCompare(b, undefined, { numeric:true }) );
         let latestVersion = versions[versions.length - 1];
         for (var i = 1; i < resultsTable.rows.length; i++) {
             if (resultsTable.rows[i].cells[2].innerText == latestVersion) resultsTable.rows[i].cells[2].firstChild.classList.add("highlightLatest");
+            if (resultsTable.rows[i].cells[6].innerText == 1) resultsTable.rows[i].cells[2].firstChild.classList.add("highlightLegacy");
         }
     resultsTable.addEventListener("click", function (e) { action(e); });
 }

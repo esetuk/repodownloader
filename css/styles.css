@@ -208,6 +208,18 @@ label {
     text-align: center;
     font-weight: bold;
 }
+.highlightLegacy {
+    vertical-align: middle;
+    display: inline-block;
+    border-radius: 5px;
+    padding: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: red;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}
 .separator {
     color: rgb(40,40,40);
     padding: 10px;

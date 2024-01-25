@@ -1,3 +1,7 @@
+25-01-2024:
+-Added legacy column, highlighting and filtering
+-Added Endpoint full package filtering
+
 23-01-2024:
 -Added functionality to rebuild URLs with missing paths
 -Styling changes
