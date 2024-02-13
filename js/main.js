@@ -132,15 +132,14 @@ function createTable() {
     resultsTable.classList.add("center");
     let versions = [];
     for (let index = 0; index < listRows.length; index++) {
-        if ((listRows[index][1] == selectedProduct) && (listRows[index][4] == selectedPlatform || selectedPlatform == "All") && (listRows[index][5].includes(selectedArchitecture) || selectedArchitecture == "All")) {
+        if ((listRows[index][1] == selectedProduct) && (listRows[index][4] == selectedPlatform || selectedPlatform == "All") &&
+        (listRows[index][5].includes(selectedArchitecture) || selectedArchitecture == "All") &&
+        (!_legacy.checked && listRows[index][6] == 0 || _legacy.checked) &&
+        (!_fullPackage.checked || (_fullPackage.checked && (listRows[index][7].includes("full") && (listRows[index][1] == "ESET Endpoint Antivirus" || listRows[index][1] == "ESET Endpoint Security")) || (listRows[index][1] != "ESET Endpoint Antivirus" && listRows[index][1] != "ESET Endpoint Security"))) &&
+        (_englishResults.checked && (listRows[index][3].toLowerCase() == "en_us" || listRows[index][3].toLowerCase() == "multilang") || !_englishResults.checked)) {
                 for (let j = 0; j < listRows[index].length; j++) {
                     match = false;
-                    if (
-                        (!_legacy.checked && listRows[index][6] == 0 || _legacy.checked) &&
-                        (!_fullPackage.checked || (_fullPackage.checked && (listRows[index][7].includes("full") && (listRows[index][1] == "ESET Endpoint Antivirus" || listRows[index][1] == "ESET Endpoint Security")) || (listRows[index][1] != "ESET Endpoint Antivirus" && listRows[index][1] != "ESET Endpoint Security"))) &&
-                        (listRows[index][j].toLowerCase().includes(textSearchText) || textSearchText == "") &&
-                        (_englishResults.checked && (listRows[index][3].toLowerCase() == "en_us" || listRows[index][3].toLowerCase() == "multilang") || !_englishResults.checked))
-                    {
+                    if (listRows[index][j].toLowerCase().includes(textSearchText) || textSearchText == "") {
                         match = true;
                         let row = resultsTable.insertRow(currentRow);
                         row.insertCell(0).innerHTML = listRows[index][1]; // Product
@@ -176,7 +175,6 @@ function createTable() {
         for (var i = 1; i < resultsTable.rows.length; i++) {
             if (resultsTable.rows[i].cells[2].innerText == latestVersion) resultsTable.rows[i].cells[2].firstChild.classList.add("highlightLatest");
             if (resultsTable.rows[i].cells[6].innerText == 1) resultsTable.rows[i].cells[2].firstChild.classList.add("highlightLegacy");
-            // here
             if (_latest.checked && resultsTable.rows[i].cells[2].innerText != latestVersion) {
                 resultsTable.deleteRow(i);
                 i--;
