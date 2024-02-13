@@ -1,6 +1,6 @@
 13-02-2024:
 -Updated products.csv
--Hard limit for results for performance
+-Hard limit of 50 for results for performance
 -Easier to read filters
 -Filtering fixes
 -Updated product list link
