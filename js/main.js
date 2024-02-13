@@ -132,11 +132,17 @@ function createTable() {
     resultsTable.classList.add("center");
     let versions = [];
     for (let index = 0; index < listRows.length; index++) {
+        // Platform filter
         if ((listRows[index][1] == selectedProduct) && (listRows[index][4] == selectedPlatform || selectedPlatform == "All") &&
-        (listRows[index][5].includes(selectedArchitecture) || selectedArchitecture == "All") &&
+        // Architecture filter
+        (listRows[index][5].includes(selectedArchitecture) || selectedArchitecture == "All") && 
+        // Legacy filter
         (!_legacy.checked && listRows[index][6] == 0 || _legacy.checked) &&
-        (!_fullPackage.checked || (_fullPackage.checked && (listRows[index][7].includes("full") && (listRows[index][1] == "ESET Endpoint Antivirus" || listRows[index][1] == "ESET Endpoint Security")) || (listRows[index][1] != "ESET Endpoint Antivirus" && listRows[index][1] != "ESET Endpoint Security"))) &&
-        (_englishResults.checked && (listRows[index][3].toLowerCase() == "en_us" || listRows[index][3].toLowerCase() == "multilang") || !_englishResults.checked)) {
+        // Full filter
+        (!_fullPackage.checked || (_fullPackage.checked && (listRows[index][7].includes("full") && (listRows[index][1] == "ESET Endpoint Antivirus" || listRows[index][1] == "ESET Endpoint Security")) || (listRows[index][1] != "ESET Endpoint Antivirus" && listRows[index][1] != "ESET Endpoint Security"))) && 
+        // English filter
+        (_englishResults.checked && (listRows[index][3].toLowerCase() == "en_us" || listRows[index][3].toLowerCase() == "multilang") || !_englishResults.checked))
+        {
                 for (let j = 0; j < listRows[index].length; j++) {
                     match = false;
                     if (listRows[index][j].toLowerCase().includes(textSearchText) || textSearchText == "") {
