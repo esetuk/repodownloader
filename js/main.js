@@ -15,12 +15,12 @@ const _product = document.getElementById("product");
 const _platform = document.getElementById("platform");
 const _architecture = document.getElementById("architecture");
 const _results = document.getElementById("results");
-const _limitResults = document.getElementById("limitResults");
+//const _limitResults = document.getElementById("limitResults");
 const _englishResults = document.getElementById("englishResults");
 const _fullPackage = document.getElementById("fullPackage");
 const _legacy = document.getElementById("legacy");
 const _latest = document.getElementById("latest");
-const maxResults = 20;
+const maxResults = 50;
 
 _clearSearch.addEventListener('click', event => {
     clearSearch();
@@ -165,7 +165,7 @@ function createTable() {
                 if (match) break;
                 }
             }
-            if (_limitResults.checked && currentRow == maxResults) break;
+            if (currentRow == maxResults) break;
         }
         if (currentRow > 0) {
             _results.append(resultsTable);
@@ -194,7 +194,7 @@ function resultCount() {
     let numberOfRows = resultsTable.rows.length - 1;
     if (numberOfRows > 0) {
         resultsString = `${numberOfRows} results`;
-        if (_limitResults.checked && numberOfRows >= maxResults) resultsString += " [LIMITED]";
+        if (numberOfRows >= maxResults) resultsString += " [LIMITED]";
         resultsString += "<br><br>";
     } else {
         resultsString = `<img id="sadFace" class="rotate" src="res/sadface.png" draggable="false" alt=":("></img><br><br>No results`;
