@@ -1,5 +1,9 @@
 13-02-2024:
 -Updated products.csv
+-Hard limit for results for performance
+-Easier to read filters
+-Filtering fixes
+-Updated product list link
 
 25-01-2024:
 -Added legacy column, highlighting and filtering
