@@ -4,7 +4,7 @@
     font-size: small;
 }
 * {
-    color: lightgray;
+    color: white;
     font-family: "Segoe UI",Helvetica,Arial, sans-serif;
     box-sizing: border-box;
 }
@@ -22,6 +22,21 @@ html, body {
     margin: auto;
     vertical-align: middle;
     width: 100%;
+    background-color: teal;
+    display: flex;
+}
+#header > div {
+    flex: 1;
+}
+#header-left {
+    text-align: left;
+    padding-left: 10px;
+}
+#header-right {
+    text-align: right;
+    margin: auto;
+    font-size: medium;
+    padding-right: 10px;
 }
 h2 {
     text-align: center;
@@ -33,7 +48,7 @@ h2 {
 }
 a {
     text-decoration: none;
-    color: darkgray;
+    color: white;
 }
 a:hover {
     color: white;
