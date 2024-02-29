@@ -22,7 +22,7 @@ html, body {
     margin: auto;
     vertical-align: middle;
     width: 100%;
-    background-color: teal;
+    background-color: rgb(0,150,161);
     display: flex;
     font-size: medium;
 }
@@ -51,7 +51,7 @@ a {
     color: white;
 }
 a:hover {
-    color: white;
+    color: lightgrey;
 }
 button {
     background-color: transparent;
