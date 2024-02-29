@@ -24,6 +24,7 @@ html, body {
     width: 100%;
     background-color: teal;
     display: flex;
+    font-size: medium;
 }
 #header > div {
     flex: 1;
@@ -44,7 +45,6 @@ h2 {
     padding: 0;
     width: auto;
     display: inline-block;
-    font-size: xx-large !important;
 }
 a {
     text-decoration: none;
