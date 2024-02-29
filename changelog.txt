@@ -1,5 +1,8 @@
+29-02-2024:
+-Updated product list
+
 13-02-2024:
--Updated products.csv
+-Updated product list
 -Hard limit of 50 for results for performance
 -Easier to read filters
 -Filtering fixes
@@ -16,4 +19,4 @@
 -Updated links for Github repo and new issue
 
 16-01-2024:
--Updated products.csv
+-Updated product list
