@@ -5250,9 +5250,5 @@ com.eset.apps.business.era.rdsensor, ESET Rogue Detection Sensor, 1.1.615.1, en_
 com.eset.apps.business.era.rdsensor, ESET Rogue Detection Sensor, 1.1.615.1, en_US, linux, x64, 0,com/eset/apps/business/era/rdsensor/v1/1.1.615.1/rdsensor_linux_x86_64.sh,
 com.eset.apps.business.ech, ESET Bridge, 1.0.37.0, en_US, windows, x64, 0,com/eset/apps/business/ech/v1/1.0.37.0/esetbridge_nt64.msi,
 com.eset.apps.business.ech, ESET Bridge, 1.0.37.0, en_US, linux, x64, 0,com/eset/apps/business/ech/v1/1.0.37.0/eset-bridge.x86_64.bin,
-<<<<<<< HEAD
-com.eset.apps.business.ech, ESET Bridge, 1.0.34.0, en_US, windows, x64, 0,com/eset/apps/business/ech/v1/1.0.34.0/esetbridge_nt64.msi
-=======
 com.eset.apps.business.ech, ESET Bridge, 1.0.34.0, en_US, windows, x64, 0,com/eset/apps/business/ech/v1/1.0.34.0/esetbridge_nt64.msi,
 com.eset.apps.business.ech, ESET Bridge, 1.0.34.0, en_US, linux, x64, 0,com/eset/apps/business/ech/v1/1.0.34.0/eset-bridge.x86_64.bin,
->>>>>>> 67c4d250229a8f8626ab47fc6e33dc2cfb5467a4
