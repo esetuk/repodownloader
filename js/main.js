@@ -54,6 +54,7 @@ function main() {
 function parseList() {
     temp = masterList.split(/[\r\n]+/);
     temp.shift();
+    console.log(temp);
     for (let i = 0; i < temp.length; i++) {
         temp[i] = temp[i].split(",").slice(0, -1);
         for (let j = 0; j < temp[i].length; j++) {
@@ -159,6 +160,8 @@ function createTable() {
                         resultsTable.rows[currentRow].cells[7].id = "download";
                         row.insertCell(8).innerHTML = `<a href="javascript:void(0)" class="links"><img src="res/copybutton.png" alt="Copy"></img></a>`;
                         resultsTable.rows[currentRow].cells[8].id = "copy";
+                        row.insertCell(9).innerHTML = `<a href="javascript:void(0)" class="links"><img src="res/changelogbutton.png" alt="Copy"></img></a>`;
+                        resultsTable.rows[currentRow].cells[9].id = "changelog";
                         currentRow++;
                         versions.push(listRows[index][2]);
                     }
@@ -236,6 +239,9 @@ function action(e) {
         case "copy":
             copyURL(resultsTable.rows[cell.parentElement.rowIndex].cells[5].innerHTML);
             break;
+        case "changelog":
+            changelogURL(resultsTable.rows[cell.parentElement.rowIndex].cells[5].innerHTML);
+            break;
         default:
     }
 }
@@ -250,4 +256,9 @@ function copyURL(path) {
     url = repoRootURL + path;
     navigator.clipboard.writeText(url);
     toast(`Copied URL ${url} to clipboard`);
+}
+
+function changelogURL(path) {
+    url = repoRootURL + path + ".changelog.html";
+    window.open(url, "_blank");
 }
